@@ -1,0 +1,8 @@
+<section class="section">
+    <h1 *ngIf="userData !== null"
+        class="title is-1">Welcome back, {{ userData.firstname }}!</h1>
+    <app-news-source-selector></app-news-source-selector>
+    <article *ngFor="let item of postCollection">
+        <app-item-post [post]="item"></app-item-post>
+    </article>
+</section>

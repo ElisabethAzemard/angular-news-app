@@ -1,0 +1,21 @@
+<header>
+    <nav class="navbar is-primary">
+        <div class="navbar-brand">
+            <ul class="navbar-menu">
+                <li *ngIf="!userData"
+                    class="navbar-item">
+                    <a [routerLink]="'/'">Home</a>
+                </li>
+                <li *ngIf="userData"
+                    class="navbar-item">
+                    <a [routerLink]="'/connected'">Me</a>
+                </li>
+                <li *ngIf="userData"
+                    class="navbar-item">
+                    <a href="#"
+                        (click)="logout()">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

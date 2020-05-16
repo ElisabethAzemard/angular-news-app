@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  apiUrl: 'https://jsonplaceholder.typicode.com',
+  authApiUrl: 'https://newsapp.dwsapp.io/api'
 };
