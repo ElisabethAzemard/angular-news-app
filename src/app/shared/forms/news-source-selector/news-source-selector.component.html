@@ -4,24 +4,21 @@
     class="form">
     <div class="field">
         <div class="select is-primary is-fullwidth">
-            <select formControlName="source"
-                name="source"
-                >
-                <option value="null" selected>Select a source</option>
-                <!-- <option *ngFor="source in sourcesList" [value]="source.name"></option> -->
+            <select formControlName="source">
+                <option value="null">Select a source</option>
+                <option *ngFor="let source of newsSources" [value]="source.id">{{ source.name }}</option>
             </select>
         </div>
     </div>
     <div class="field">
         <input formControlName="keyword"
             type="text"
-            name="keyword"
             placeholder="Any keyword ?"
-            class="input">
+            class="input is-primary">
     </div>
     <div class="field">
         <button type="submit"
-            class="button is-primary"
+            class="button is-primary is-outlined"
             [disabled]="!formData.valid">Search</button>
     </div>
 </form>

@@ -1,48 +1,55 @@
-// Angular imports
+/* MODULES IMPORTS */
 import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from "@angular/common/http";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { RouterModule } from "@angular/router"
+import { RouterModule } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
-// Router
-import { AppRouterModule } from "./app.router";
 
-// Components
+/* COMPONENTS IMPORTS */
 import { AppComponent } from './app.component';
-import { HomePageComponent } from './routes/home-page/home-page.component';
 import { ConnectedPageComponent } from './routes/connected-page/connected-page.component';
 import { HeaderComponent } from './shared/header/header.component';
-import { LoginFormComponent } from './shared/forms/login-form/login-form.component';
-import { RegisterFormComponent } from './shared/forms/register-form/register-form.component';
+import { HomePageComponent } from './routes/home-page/home-page.component';
 import { ItemPostComponent } from './shared/item-post/item-post.component';
-import { NewsSourceSelectorComponent } from "./shared/forms/news-source-selector/news-source-selector.component";
+import { LoginFormComponent } from './shared/forms/login-form/login-form.component';
+import { NewsSourceSelectorComponent } from './shared/forms/news-source-selector/news-source-selector.component';
+import { RegisterFormComponent } from './shared/forms/register-form/register-form.component';
 
-// Service
-import { CrudService } from "./services/crud/crud.service";
 
+/* ROUTER IMPORT */
+import { AppRouterModule } from './app.router';
+
+
+/* SERVICES IMPORTS */
+import { CrudService } from './services/crud/crud.service';
+
+
+/* DEFINITION & EXPORT */
 @NgModule({
-  declarations: [
-    AppComponent,
-    HomePageComponent,
-    ConnectedPageComponent,
-    HeaderComponent,
-    LoginFormComponent,
-    RegisterFormComponent,
-    ItemPostComponent,
-    NewsSourceSelectorComponent
-  ],
-  imports: [
-    BrowserModule,
-    RouterModule.forRoot(AppRouterModule, { onSameUrlNavigation: 'reload' }),
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    FontAwesomeModule
-  ],
-  providers: [CrudService],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        ConnectedPageComponent,
+        HeaderComponent,
+        HomePageComponent,
+        ItemPostComponent,
+        LoginFormComponent,
+        NewsSourceSelectorComponent,
+        RegisterFormComponent
+    ],
+    imports: [
+        BrowserModule,
+        CommonModule,
+        FontAwesomeModule,
+        FormsModule,
+        HttpClientModule,
+        ReactiveFormsModule,
+        RouterModule.forRoot(AppRouterModule, { onSameUrlNavigation: 'reload' })
+    ],
+    providers: [CrudService],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

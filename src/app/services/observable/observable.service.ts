@@ -1,54 +1,67 @@
-/*
-Imports
-*/
-import { Injectable } from '@angular/core';
+/* IMPORTS */
 import { BehaviorSubject, Observable } from 'rxjs';
-//
+import { Injectable } from '@angular/core';
 
-/*
-Definition and export
-*/
+
+/* DEFINITION & EXPORT */
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class ObservablesService {
 
-  // Init observable
-  protected userInfo: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  protected postsList: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-  protected sourcesList: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    // PROPERTIES
+    protected user: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    protected token: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    protected news: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    protected sources: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor() { }
 
-  public setObservableData = (type: string, data: any) => {
-    switch (type) {
-      case 'user':
-        this.userInfo.next(data);
-        break;
+    constructor() { }
 
-      case 'posts':
-        this.postsList.next(data);
-        break;
 
-      default:
-        break;
+    // METHODS
+    // set data
+    public setObservableData = (type: string, data: any) => {
+        switch (type) {
+        case 'user':
+            this.user.next(data);
+            break;
+
+        case 'sources':
+            this.sources.next(data);
+            break;
+
+        case 'news':
+            this.news.next(data);
+            break;
+
+        case 'token':
+            this.token.next(data);
+            break;
+
+        default:
+            break;
+        }
     };
-  };
 
-  public getObservableData = (type: string): Observable<any> => {
-    switch (type) {
-      case 'user':
-          return this.userInfo;
-        break;
+    // get data
+    public getObservableData = (type: string): Observable<any> => {
+        switch (type) {
+        case 'user':
+            return this.user;
+            break;
 
-      case 'posts':
-          return this.postsList;
-        break;
+        case 'sources':
+            return this.sources;
+            break;
 
-      default:
-        break;
+        case 'news':
+            return this.news;
+            break;
+
+        default:
+            break;
+        }
     };
-  };
 
 }
-//

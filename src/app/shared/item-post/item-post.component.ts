@@ -1,32 +1,25 @@
-/*
-Import
-*/
-// Angular
+/* IMPORTS */
 import { Component, OnInit, Input } from '@angular/core';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { ObservablesService } from '../../services/observable/observable.service';
 
-//
 
-/*
-Componant configuration
-*/
+/* DEFINITION & EXPORT */
 @Component({
-  selector: 'app-item-post',
-  templateUrl: './item-post.component.html'
+    selector: 'app-item-post',
+    templateUrl: './item-post.component.html',
+    styleUrls: ['./item-post.component.scss']
 })
-//
-
-
-/*
-Componant class definition
-*/
 export class ItemPostComponent implements OnInit {
 
-  // Input  data from parent component
-  @Input() post: any;
-  faHeart = faHeart;
+    // Input  data from parent component
+    @Input() news: object;
+    faHeart = faHeart;
 
-  constructor() { }
-  ngOnInit() { };
-};
-//
+    constructor(private ObservablesService: ObservablesService) {
+    }
+
+    ngOnInit() {
+    }
+
+}

@@ -1,4 +1,14 @@
 <section class="section">
     <app-login-form (formSubmit)="loginUser($event)"></app-login-form>
+</section>
+<section class="section">
     <app-register-form (formSubmit)="registerUser($event)"></app-register-form>
+</section>
+<section class="section">
+    <app-news-source-selector (formSubmit)="getNewsList($event)"></app-news-source-selector>
+</section>
+<section class="section">
+    <article *ngFor="let newsItem of newsCollection">
+        <app-item-post [news]="newsItem"></app-item-post>
+    </article>
 </section>

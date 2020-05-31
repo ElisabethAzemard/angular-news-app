@@ -1,18 +1,12 @@
-/*
-Imports
-*/
-// Angular
+/* IMPORTS */
 import { Routes } from '@angular/router';
-import { AuthGuard } from "./auth.guard";
-//
+import { AuthGuard } from './auth.guard';
 
-// Inner
-import { HomePageComponent } from "./routes/home-page/home-page.component";
-import { ConnectedPageComponent } from "./routes/connected-page/connected-page.component";
+import { HomePageComponent } from './routes/home-page/home-page.component';
+import { ConnectedPageComponent } from './routes/connected-page/connected-page.component';
 
-/*
-Export
-*/
+
+/* EXPORT */
 export const AppRouterModule: Routes = [
     {
         path: '',
@@ -24,4 +18,3 @@ export const AppRouterModule: Routes = [
         canActivate: [AuthGuard]
     }
 ];
-//
