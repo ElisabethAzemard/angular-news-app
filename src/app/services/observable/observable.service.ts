@@ -14,7 +14,7 @@ export class ObservablesService {
     protected token: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     protected news: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     protected sources: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-
+    protected lastSource: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     constructor() { }
 
@@ -37,6 +37,10 @@ export class ObservablesService {
 
         case 'token':
             this.token.next(data);
+                break;
+
+        case 'lastSource':
+            this.lastSource.next(data);
             break;
 
         default:
@@ -57,6 +61,10 @@ export class ObservablesService {
 
         case 'news':
             return this.news;
+            break;
+
+        case 'lastSource':
+            return this.lastSource;
             break;
 
         default:

@@ -5,6 +5,7 @@
 <section class="section">
     <app-news-source-selector (formSubmit)="getNewsList($event)"></app-news-source-selector>
 </section>
+<app-news-source></app-news-source>
 <section class="section">
     <article *ngFor="let newsItem of newsCollection">
         <app-item-post [news]="newsItem"></app-item-post>

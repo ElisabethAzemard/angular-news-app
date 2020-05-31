@@ -23,8 +23,7 @@ export class ConnectedPageComponent implements OnInit {
     // DEPENDENCIES INJECTION
     constructor(
         private CrudService: CrudService,
-        private ObservablesService: ObservablesService,
-        private AuthService: AuthService)
+        private ObservablesService: ObservablesService)
     {
         // get user data from observer
         this.ObservablesService.getObservableData('user').subscribe(observerUserData => {
@@ -69,8 +68,20 @@ export class ConnectedPageComponent implements OnInit {
 
         this.newsCollection = response.articles;
         localStorage.setItem('news', JSON.stringify(response.articles));
-        localStorage.setItem('last-source', sourceSelectorFormData.source);
+
+        // send current source to Observer & local storage
+        this.getLastSource(sourceSelectorFormData.source);
     };
+
+    public getLastSource = (sourceId) => {
+        for (let [key, source] of Object.entries(this.sourcesCollection)) {
+            if (source.id == sourceId) {
+                // send data to observer and local storage
+                this.ObservablesService.setObservableData('lastSource', source);
+                localStorage.setItem('lastSource', JSON.stringify(source));
+            }
+        }
+    }
 
 
     // LIFECYCLE HOOKS
