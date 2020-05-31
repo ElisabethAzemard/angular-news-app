@@ -16,6 +16,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { HomePageComponent } from './routes/home-page/home-page.component';
 import { ItemPostComponent } from './shared/item-post/item-post.component';
 import { LoginFormComponent } from './shared/forms/login-form/login-form.component';
+import { NewsSourceComponent } from './shared/news-source/news-source/news-source.component';
 import { NewsSourceSelectorComponent } from './shared/forms/news-source-selector/news-source-selector.component';
 import { RegisterFormComponent } from './shared/forms/register-form/register-form.component';
 
@@ -37,6 +38,7 @@ import { CrudService } from './services/crud/crud.service';
         HomePageComponent,
         ItemPostComponent,
         LoginFormComponent,
+        NewsSourceComponent,
         NewsSourceSelectorComponent,
         RegisterFormComponent
     ],

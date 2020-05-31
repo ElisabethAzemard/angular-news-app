@@ -1,0 +1,42 @@
+<ng-container *ngIf="source">
+    <section class="section">
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item">
+                    <h2 class="title is-2"><a href="{{ source.url }}" target="_blank" rel="noopener" class="has-text-dark">{{ source.name }}</a></h2>
+                </div>
+                <div class="level-item">
+                    <button class="button is-danger is-small is-outlined" id="addToBookmarks">
+                        <span>Add to bookmarks</span>
+                        <span class="icon is-small">
+                            <fa-icon [icon]="faHeart"
+                                aria-hidden="true"></fa-icon>
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <p>{{ source.description }}</p>
+        <div class="field is-grouped is-grouped-multiline">
+            <div class="control">
+                <div class="tags has-addons">
+                    <span class="tag">category</span>
+                    <span class="tag is-primary is-light heading">{{ source.category}}</span>
+                </div>
+            </div>
+            <div class="control">
+                <div class="tags has-addons">
+                    <span class="tag">language</span>
+                    <span class="tag is-primary is-light heading">{{ source.language}}</span>
+                </div>
+            </div>
+            <div class="control">
+                <div class="tags has-addons">
+                    <span class="tag">country</span>
+                    <span class="tag is-primary is-light heading">{{ source.country}}</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</ng-container>
+
