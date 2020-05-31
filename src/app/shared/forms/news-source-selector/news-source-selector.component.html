@@ -3,7 +3,7 @@
     (submit)="formSubmit.emit(formData.value)"
     class="form">
     <div class="field">
-        <div class="select is-primary is-fullwidth">
+        <div class="select is-primary is-fullwidth is-small">
             <select formControlName="source">
                 <option value="null">Select a source</option>
                 <option *ngFor="let source of newsSources" [value]="source.id">{{ source.name }}</option>
@@ -14,11 +14,11 @@
         <input formControlName="keyword"
             type="text"
             placeholder="Any keyword ?"
-            class="input is-primary">
+            class="input is-primary is-small">
     </div>
     <div class="field">
         <button type="submit"
-            class="button is-primary is-outlined"
+            class="button is-primary is-outlined is-small"
             [disabled]="!formData.valid">Search</button>
     </div>
 </form>

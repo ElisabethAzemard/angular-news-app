@@ -1,25 +1,19 @@
 <div class="columns">
     <div class="column is-narrow">
-        <figure *ngIf="news.urlToImage == 'null'" class="image">
-            <img  src="https://bulma.io/images/placeholders/640x360.png" alt="{{ news.title }}">
+        <!-- Account for image being undefined OR null -->
+        <figure *ngIf="!news.urlToImage || news.urlToImage == 'null'" class="image">
+            <img  src="https://bulma.io/images/placeholders/640x360.png" alt="no image">
         </figure>
-        <figure *ngIf="news.urlToImage != 'null'" class="image">
+        <figure *ngIf="news.urlToImage && news.urlToImage != 'null'" class="image">
             <img src="{{ news.urlToImage }}" alt="{{ news.title }}">
         </figure>
     </div>
     <div class="column">
         <div class="content">
-            <h2 class="title is-3">{{ news.title }}</h2>
+            <h3 class="title is-3">{{ news.title }}</h3>
             <p class="subtitle heading">by {{news.author}} | {{ news.publishedAt | date:'medium' }}</p>
             <p>{{ news.content | slice:0:180 }}...</p>
             <a class="button is-primary is-small is-outlined" href="{{ news.url }}" target="_blank" rel="noopener">&rarr; Read more</a>
         </div>
-    </div>
-    <div class="column is-narrow">
-        <button class="button is-danger is-small is-outlined">
-            <span class="icon is-small">
-                <fa-icon [icon]="faHeart" aria-hidden="true"></fa-icon>
-            </span>
-        </button>
     </div>
 </div>

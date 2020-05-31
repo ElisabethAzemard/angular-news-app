@@ -9,33 +9,33 @@
             type="text"
             name="firstName"
             placeholder="Your first name..."
-            class="input">
+            class="input is-small">
     </div>
     <div class="field">
         <input formControlName="lastname"
             type="text"
             name="lastName"
             placeholder="Your last name..."
-            class="input">
+            class="input is-small">
     </div>
     <div class="field">
         <input formControlName="email"
             type="email"
             name="email"
             placeholder="Your email..."
-            class="input">
+            class="input is-small">
     </div>
     <div class="field">
         <input formControlName="password"
             type="password"
             name="password"
             placeholder="Your password..."
-            class="input">
+            class="input is-small">
     </div>
     <div class="field">
         <button
             type="submit"
-            class="button is-primary"
+            class="button is-primary is-small"
             [disabled]="!formData.valid">Inscription</button>
     </div>
 </form>

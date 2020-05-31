@@ -56,7 +56,6 @@ export class CrudService {
         // Switch endpoint to set observable value
         switch (endpoint) {
         case 'sources':
-            console.log('ici en fait');
             // Set sources observable value
             this.ObservablesService.setObservableData('sources', apiResponse.sources);
 
