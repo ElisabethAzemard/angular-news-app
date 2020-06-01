@@ -28,15 +28,8 @@ export class CrudService {
         return { headers: myHeader };
     };
 
-    // CRUD: read one news
-    public readOneItem(endpoint: string, param: string): Promise<any> {
-        return this.HttpClient.get(`${environment.newsApiUrl}/${endpoint}?${param}`).toPromise()
-            .then(data => this.getData(endpoint, data))
-            .catch(this.handleError);
-    }
-
     // CRUD: get top headlines from one source
-    public getAllItems(endpoint: string, param1: string = 'language=en', param2?: string): Promise<any> {
+    public getTopHeadlines(endpoint: string, param1: string = 'language=en', param2?: string): Promise<any> {
         return this.HttpClient.get(`${environment.newsApiUrl}/${endpoint}?${param1}&${param2}&apiKey=${environment.newsApiKey}`)
             .toPromise()
             .then(data => this.getData(endpoint, data))
@@ -58,14 +51,16 @@ export class CrudService {
         case 'sources':
             // Set sources observable value
             this.ObservablesService.setObservableData('sources', apiResponse.sources);
+            localStorage.setItem('sources', JSON.stringify(apiResponse.sources));
 
             // Return data
             return apiResponse || {};
             break;
 
-        case 'news':
+            case 'top-headlines':
             // Set news observable value
-            this.ObservablesService.setObservableData('news', apiResponse);
+            this.ObservablesService.setObservableData('news', apiResponse.articles);
+            localStorage.setItem('news', JSON.stringify(apiResponse.articles));
 
             // Return data
             return apiResponse || {};

@@ -15,17 +15,17 @@ export class NewsSourceComponent implements OnInit {
 
 
     constructor(private ObservablesService: ObservablesService) {
-        this.ObservablesService.getObservableData('lastSource').subscribe(observerLastSourceData => {
-            if (observerLastSourceData === null) {
+        this.ObservablesService.getObservableData('source').subscribe(observerSourceData => {
+            if (observerSourceData === null) {
                 this.source = null;
             } else {
-                if (observerLastSourceData) {
+                if (observerSourceData) {
                     // set local storage
-                    if (!localStorage.getItem('lastSource')) {
-                        localStorage.setItem('lastSource', JSON.stringify(observerLastSourceData.token));
+                    if (!localStorage.getItem('source')) {
+                        localStorage.setItem('source', JSON.stringify(observerSourceData.token));
                     }
                     // update source value
-                    this.source = observerLastSourceData;
+                    this.source = observerSourceData;
                 } else {
                     this.source = null;
                 }
@@ -34,14 +34,14 @@ export class NewsSourceComponent implements OnInit {
     }
 
 
-    private getLastSourceFromCache = () => {
-        if (localStorage.getItem('lastSource')) {
-            this.source = JSON.parse(localStorage.getItem('lastSource'));
+    private getsourceFromCache = () => {
+        if (localStorage.getItem('source')) {
+            this.source = JSON.parse(localStorage.getItem('source'));
         }
     }
 
     ngOnInit() {
-        this.getLastSourceFromCache();
+        this.getsourceFromCache();
     }
 
 }

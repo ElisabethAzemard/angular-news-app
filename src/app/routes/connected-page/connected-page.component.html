@@ -3,7 +3,7 @@
         class="title is-1">Welcome back, {{ userData.firstname }}!</h1>
 </section>
 <section class="section">
-    <app-news-source-selector (formSubmit)="getNewsList($event)"></app-news-source-selector>
+    <app-news-source-selector (formSubmit)="getNewsFromSource($event)"></app-news-source-selector>
 </section>
 <app-news-source></app-news-source>
 <section class="section">

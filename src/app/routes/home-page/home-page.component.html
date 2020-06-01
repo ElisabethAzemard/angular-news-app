@@ -5,7 +5,7 @@
     <app-register-form (formSubmit)="registerUser($event)"></app-register-form>
 </section>
 <section class="section">
-    <app-news-source-selector (formSubmit)="getNewsList($event)"></app-news-source-selector>
+    <app-news-source-selector (formSubmit)="getNewsFromSource($event)"></app-news-source-selector>
 </section>
 <section class="section">
     <article *ngFor="let newsItem of newsCollection">

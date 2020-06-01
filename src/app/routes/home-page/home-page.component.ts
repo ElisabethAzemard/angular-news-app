@@ -58,32 +58,40 @@ export class HomePageComponent implements OnInit {
         }
     };
 
-    // get news from source
-    public getNewsList = async (sourceSelectorFormData: any) => {
+    // get news from source on submit
+    public getNewsFromSource = async (sourceSelectorFormData: any) => {
         let response;
         if (sourceSelectorFormData.keyword === null) {
-            response = await this.CrudService.getAllItems('top-headlines', `sources=${sourceSelectorFormData.source}`);
+            response = await this.CrudService.getTopHeadlines('top-headlines', `sources=${sourceSelectorFormData.source}`);
         } else {
-            response = await this.CrudService.getAllItems('top-headlines', `sources=${sourceSelectorFormData.source}`, `q=${sourceSelectorFormData.keyword}`);
-            localStorage.setItem('last-keyword', sourceSelectorFormData.keyword);
+            response = await this.CrudService.getTopHeadlines('top-headlines', `sources=${sourceSelectorFormData.source}`, `q=${sourceSelectorFormData.keyword}`);
+            localStorage.setItem('keyword', sourceSelectorFormData.keyword);
         }
         this.newsCollection = response.articles;
-        localStorage.setItem('news', JSON.stringify(response.articles));
-        localStorage.setItem('last-source', sourceSelectorFormData.source);
+
+        // send current source to Observer & local storage
+        this.saveSource(sourceSelectorFormData.source);
     };
 
+    public saveSource = (sourceId) => {
+        for (let [key, source] of Object.entries(this.sourcesCollection)) {
+            if (source.id == sourceId) {
+                // send data to observer and local storage
+                this.ObservablesService.setObservableData('source', source);
+                localStorage.setItem('source', JSON.stringify(source));
+            }
+        }
+    }
+
     // get all sources
-    public getSourcesList = async () => {
+    public getAllSources = async () => {
         if (localStorage.getItem('sources')) {
             this.sourcesCollection = JSON.parse(localStorage.getItem('sources'));
-            this.ObservablesService.setObservableData('sources', JSON.parse(localStorage.getItem('sources')));
-        } else {
-            console.log('ici');
+            this.ObservablesService.setObservableData('sources', this.sourcesCollection);
+        }
+        else {
             const response = await this.CrudService.getAllSources();
             this.sourcesCollection = response.sources;
-            console.log('et là', response);
-            this.ObservablesService.setObservableData('sources', response.sources);
-            localStorage.setItem('sources', JSON.stringify(this.sourcesCollection));
         }
     };
 
@@ -91,7 +99,7 @@ export class HomePageComponent implements OnInit {
     // LIFECYCLE HOOKS
     ngOnInit() {
         // get all sources on page load
-        this.getSourcesList();
+        this.getAllSources();
     }
 
 }

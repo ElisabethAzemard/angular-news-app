@@ -19,7 +19,7 @@ export class NewsSourceSelectorComponent implements OnInit {
     newsSources: object;
     newsList: object;
     previousKeyword: string;
-    previousSource: string;
+    previousSourceId: string;
 
 
     // DEPENDENCIES INJECTION
@@ -47,13 +47,13 @@ export class NewsSourceSelectorComponent implements OnInit {
             keyword: [null],
         });
 
-        if (localStorage.getItem('last-source')) {
-            this.previousSource = localStorage.getItem('last-source');
-            this.formData.patchValue({ source: this.previousSource });
+        if (localStorage.getItem('source')) {
+            this.previousSourceId = JSON.parse(localStorage.getItem('source')).id;
+            this.formData.patchValue({ source: this.previousSourceId });
         }
 
-        if (localStorage.getItem('last-keyword')) {
-            this.previousKeyword = localStorage.getItem('last-keyword');
+        if (localStorage.getItem('keyword')) {
+            this.previousKeyword = localStorage.getItem('keyword');
             this.formData.patchValue({ keyword: this.previousKeyword });
         }
     };

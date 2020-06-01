@@ -47,38 +47,35 @@ export class ConnectedPageComponent implements OnInit {
 
     // METHODS
     // get all sources
-    public getSourcesList = async () => {
+    public getAllSources = async () => {
         const response = await this.CrudService.getAllSources();
         this.sourcesCollection = response.sources;
-        this.ObservablesService.setObservableData('sources', response.sources);
-        localStorage.setItem('sources', JSON.stringify(this.sourcesCollection));
     };
 
     // get news from selected source
-    public getNewsList = async (sourceSelectorFormData: any) => {
+    public getNewsFromSource = async (sourceSelectorFormData: any) => {
         let response;
 
         // if no keyword, don't send the parameter
         if (sourceSelectorFormData.keyword === null) {
-            response = await this.CrudService.getAllItems('top-headlines', `sources=${sourceSelectorFormData.source}`);
+            response = await this.CrudService.getTopHeadlines('top-headlines', `sources=${sourceSelectorFormData.source}`);
         } else {
-            response = await this.CrudService.getAllItems('top-headlines', `sources=${sourceSelectorFormData.source}`, `q=${sourceSelectorFormData.keyword}`);
-            localStorage.setItem('last-keyword', sourceSelectorFormData.keyword);
+            response = await this.CrudService.getTopHeadlines('top-headlines', `sources=${sourceSelectorFormData.source}`, `q=${sourceSelectorFormData.keyword}`);
+            localStorage.setItem('keyword', sourceSelectorFormData.keyword);
         }
 
         this.newsCollection = response.articles;
-        localStorage.setItem('news', JSON.stringify(response.articles));
 
         // send current source to Observer & local storage
-        this.getLastSource(sourceSelectorFormData.source);
+        this.saveSource(sourceSelectorFormData.source);
     };
 
-    public getLastSource = (sourceId) => {
+    public saveSource = (sourceId) => {
         for (let [key, source] of Object.entries(this.sourcesCollection)) {
             if (source.id == sourceId) {
                 // send data to observer and local storage
-                this.ObservablesService.setObservableData('lastSource', source);
-                localStorage.setItem('lastSource', JSON.stringify(source));
+                this.ObservablesService.setObservableData('source', source);
+                localStorage.setItem('source', JSON.stringify(source));
             }
         }
     }
@@ -86,12 +83,13 @@ export class ConnectedPageComponent implements OnInit {
 
     // LIFECYCLE HOOKS
     ngOnInit() {
+        // @TODO : use Observer, fallback to local storage and then API => do it in Constructor
         // get sources from local storage, fall back to API
         if (localStorage.getItem('sources')) {
             this.sourcesCollection = JSON.parse(localStorage.getItem('sources'));
             this.ObservablesService.setObservableData('sources', JSON.parse(localStorage.getItem('sources')));
         } else {
-            this.getSourcesList();
+            this.getAllSources();
         }
 
         // get news from local storage
