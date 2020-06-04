@@ -1,0 +1,42 @@
+<section *ngIf="bookmarks" class="section">
+    <article *ngFor="let bookmark of bookmarks" class="is-small">
+        <div class="message-header">
+            <p>{{ bookmark.name }}</p>
+            <button class="button is-danger is-small"
+                id="removeFromBookmarks"
+                (click)="removeBookmark(bookmark._id)">
+                <span>Remove from bookmarks</span>
+                <span class="icon is-small">
+                    <fa-icon [icon]="faHeartBroken"
+                        aria-hidden="true"></fa-icon>
+                </span>
+            </button>
+        </div>
+        <div class="message-body has-background-light">
+            <p>{{ bookmark.description }}</p>
+            <div class="field is-grouped is-grouped-multiline">
+                <div class="control">
+                    <div class="tags has-addons">
+                        <span class="tag">category</span>
+                        <span class="tag is-primary heading">{{ bookmark.category}}</span>
+                    </div>
+                </div>
+                <div class="control">
+                    <div class="tags has-addons">
+                        <span class="tag">language</span>
+                        <span class="tag is-primary heading">{{ bookmark.language}}</span>
+                    </div>
+                </div>
+                <div class="control">
+                    <div class="tags has-addons">
+                        <span class="tag">country</span>
+                        <span class="tag is-primary heading">{{ bookmark.country}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</section>
+<section *ngIf="bookmarks.length == 0" class="section">
+    <p>You haven't bookmarked any news source yet... Do it from the news page :)</p>
+</section>

@@ -11,7 +11,7 @@
     <div class="column">
         <div class="content">
             <h3 class="title is-3">{{ news.title }}</h3>
-            <p class="subtitle heading">by {{news.author}} | {{ news.publishedAt | date:'medium' }}</p>
+            <p class="subtitle heading"><span *ngIf="news.author">by {{news.author}} | </span>{{ news.publishedAt | date:'medium' }}</p>
             <p>{{ news.content | slice:0:180 }}...</p>
             <a class="button is-primary is-small is-outlined" href="{{ news.url }}" target="_blank" rel="noopener">&rarr; Read more</a>
         </div>

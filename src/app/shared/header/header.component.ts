@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
-    styles: []
+    styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
 
@@ -36,11 +36,15 @@ export class HeaderComponent implements OnInit {
 
         // Get bookmark observer
     }
-    //
 
+
+    // METHODS
     public logout = () => {
         // Delete localstorage
         localStorage.removeItem('token');
+        localStorage.removeItem('bookmarks');
+        localStorage.removeItem('news');
+        localStorage.removeItem('source');
 
         // Set user info observable value
         this.ObservablesService.setObservableData('user', null);
@@ -50,7 +54,23 @@ export class HeaderComponent implements OnInit {
         this.Router.navigateByUrl('/');
     };
 
+    public openBurgerNav = () => {
 
-    ngOnInit() {}
+        const burger = document.querySelector('.navbar-burger');
+        const menu = document.querySelector('.navbar-menu');
+
+        burger.addEventListener('click', () => {
+            // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+            burger.classList.toggle('is-active');
+            menu.classList.toggle('is-active');
+
+        });
+
+    }
+
+    // LIFECYCLE HOOKS
+    ngOnInit() {
+        this.openBurgerNav();
+    }
 
 }

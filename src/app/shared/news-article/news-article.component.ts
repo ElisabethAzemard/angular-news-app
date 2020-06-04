@@ -7,16 +7,16 @@ import { ObservablesService } from '../../services/observable/observable.service
 /* DEFINITION & EXPORT */
 @Component({
     selector: 'app-item-post',
-    templateUrl: './item-post.component.html',
-    styleUrls: ['./item-post.component.scss']
+    templateUrl: './news-article.component.html',
+    styleUrls: ['./news-article.component.scss']
 })
-export class ItemPostComponent implements OnInit {
+export class NewsArticleComponent implements OnInit {
 
     // Input  data from parent component
     @Input() news: object;
     faHeart = faHeart;
 
-    constructor(private ObservablesService: ObservablesService) {
+    constructor() {
     }
 
     ngOnInit() {

@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     // LIFECYCLE HOOKS
     async ngOnInit() {
         // redirect to 'connected' page if user is logged
-        return new Promise((resolve, reject) => {
+        return new Promise((resolve) => {
             this.AuthService.getCurrentUserInfo({ token: localStorage.getItem('token') })
                 .then((apiResponse) => {
                     if (apiResponse.message === 'User logged') {

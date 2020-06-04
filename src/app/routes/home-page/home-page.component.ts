@@ -38,11 +38,14 @@ export class HomePageComponent implements OnInit {
     // METHODS
     // login
     private loginUser = async (credentials: string) => {
-        // get user info
+        // login user in service
         const userInfo = await this.AuthService.loginUser(credentials);
-        localStorage.setItem('token', userInfo.data.token);
 
-        // check user info
+        // set local storage & observer here because token is not accessible from AuthService
+        localStorage.setItem('token', userInfo.data.token);
+        this.ObservablesService.setObservableData('token', userInfo.data.token);
+
+        // if user info, redirect to /connected
         if (userInfo) {
             this.Router.navigateByUrl('/connected');
         }
@@ -77,8 +80,8 @@ export class HomePageComponent implements OnInit {
         for (let [key, source] of Object.entries(this.sourcesCollection)) {
             if (source.id == sourceId) {
                 // send data to observer and local storage
-                this.ObservablesService.setObservableData('source', source);
-                localStorage.setItem('source', JSON.stringify(source));
+                this.ObservablesService.setObservableData('source', { info: source });
+                localStorage.setItem('source', JSON.stringify({ info: source }));
             }
         }
     }

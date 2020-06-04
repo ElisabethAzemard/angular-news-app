@@ -1,5 +1,5 @@
 /* IMPORTS */
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { ObservablesService } from '../observable/observable.service';
@@ -17,7 +17,6 @@ export class CrudService {
         private ObservablesService: ObservablesService
     ) { }
 
-
     // METHODS
     // request headers setting
     private setHeaders = () => {
@@ -25,7 +24,7 @@ export class CrudService {
         myHeader.append('Content-Type', 'application/json');
 
         // return header
-        return { headers: myHeader };
+        return myHeader;
     };
 
     // CRUD: get top headlines from one source
@@ -36,7 +35,7 @@ export class CrudService {
             .catch(this.handleError);
     }
 
-    // CRUD: get all sources from API
+    // CRUD: get all sources & bookmarks from API
     public getAllSources(): Promise<any> {
         return this.HttpClient.get(`${environment.newsApiUrl}/sources?apiKey=${environment.newsApiKey}`)
             .toPromise()
@@ -44,24 +43,48 @@ export class CrudService {
             .catch(this.handleError);
     }
 
+    // CRUD: add bookmark
+    public addBookmark(source: any): Promise<any> {
+        return this.HttpClient.post(`${environment.authApiUrl}/bookmark`, source)
+            .toPromise()
+            .then(data => this.getData('bookmark', data))
+            .catch(this.handleError);
+    }
+
+    // CRUD: remove bookmark
+    public removeBookmark(bookmarkId: number, userToken: any): Promise<any> {
+        return this.HttpClient.request('delete', `${environment.authApiUrl}/bookmark/${bookmarkId}`, { headers: this.setHeaders(), body: userToken })
+            .toPromise()
+            .then(data => this.getData('bookmark', data))
+            .catch(this.handleError);
+    }
+
     // get api response
     private getData = (endpoint, apiResponse: any) => {
+        // @TODO: don't switch endpoint, add as a variable in call to local storage & observer ?
         // Switch endpoint to set observable value
         switch (endpoint) {
         case 'sources':
             // Set sources observable value
             this.ObservablesService.setObservableData('sources', apiResponse.sources);
+
+            // add to local storage
             localStorage.setItem('sources', JSON.stringify(apiResponse.sources));
 
             // Return data
             return apiResponse || {};
             break;
 
-            case 'top-headlines':
+        case 'top-headlines':
             // Set news observable value
             this.ObservablesService.setObservableData('news', apiResponse.articles);
             localStorage.setItem('news', JSON.stringify(apiResponse.articles));
 
+            // Return data
+            return apiResponse || {};
+            break;
+
+        case 'bookmark':
             // Return data
             return apiResponse || {};
             break;

@@ -1,14 +1,32 @@
 <header>
     <nav class="navbar is-primary">
-        <!-- <div class="navbar-brand"> -->
-            <ul class="navbar-brand">
+        <div class="navbar-brand">
+            <a [routerLink]="'/'">
+                <img src="assets/img/logo.png" alt="logo" width="50px">
+            </a>
+            <h1 class="title is-3 has-text-white">News app</h1>
+            <a role="button"
+                class="navbar-burger"
+                aria-label="menu"
+                aria-expanded="false">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+            </a>
+        </div>
+        <div class="navbar-menu">
+            <ul class="navbar-start">
                 <li *ngIf="!userData"
                     class="navbar-item">
                     <a [routerLink]="'/'">Home</a>
                 </li>
                 <li *ngIf="userData"
                     class="navbar-item">
-                    <a [routerLink]="'/connected'">Me</a>
+                    <a [routerLink]="'/connected'">News</a>
+                </li>
+                <li *ngIf="userData"
+                    class="navbar-item">
+                    <a [routerLink]="'/bookmarks'">Bookmarks</a>
                 </li>
                 <li *ngIf="userData"
                     class="navbar-item">
@@ -16,6 +34,6 @@
                         (click)="logout()">Logout</a>
                 </li>
             </ul>
-        <!-- </div> -->
+        </div>
     </nav>
 </header>

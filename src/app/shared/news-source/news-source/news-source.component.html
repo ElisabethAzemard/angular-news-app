@@ -3,11 +3,16 @@
         <div class="level">
             <div class="level-left">
                 <div class="level-item">
-                    <h2 class="title is-2"><a href="{{ source.url }}" target="_blank" rel="noopener" class="has-text-dark">{{ source.name }}</a></h2>
+                    <h2 class="title is-2"><a href="{{ source.info.url }}" target="_blank" rel="noopener" class="has-text-dark">{{ source.info.name }}</a></h2>
                 </div>
                 <div class="level-item">
-                    <button class="button is-danger is-small is-outlined" id="addToBookmarks">
-                        <span>Add to bookmarks</span>
+                    <button
+                        class="button is-danger is-small"
+                        id="addToBookmarks"
+                        [disabled]="source.alreadyBookmarked"
+                        (click)="addBookmark.emit(source)">
+                        <span *ngIf="!source.alreadyBookmarked" >Add to bookmarks</span>
+                        <span *ngIf="source.alreadyBookmarked" >Added to bookmarks</span>
                         <span class="icon is-small">
                             <fa-icon [icon]="faHeart"
                                 aria-hidden="true"></fa-icon>
@@ -16,24 +21,24 @@
                 </div>
             </div>
         </div>
-        <p>{{ source.description }}</p>
+        <p>{{ source.info.description }}</p>
         <div class="field is-grouped is-grouped-multiline">
             <div class="control">
                 <div class="tags has-addons">
                     <span class="tag">category</span>
-                    <span class="tag is-primary is-light heading">{{ source.category}}</span>
+                    <span class="tag is-primary heading">{{ source.info.category}}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
                     <span class="tag">language</span>
-                    <span class="tag is-primary is-light heading">{{ source.language}}</span>
+                    <span class="tag is-primary heading">{{ source.info.language}}</span>
                 </div>
             </div>
             <div class="control">
                 <div class="tags has-addons">
                     <span class="tag">country</span>
-                    <span class="tag is-primary is-light heading">{{ source.country}}</span>
+                    <span class="tag is-primary heading">{{ source.info.country}}</span>
                 </div>
             </div>
         </div>

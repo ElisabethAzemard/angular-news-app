@@ -1,7 +1,6 @@
 /* IMPORTS */
 import { Component, OnInit } from '@angular/core';
 
-import { AuthService } from '../../services/auth/auth.service';
 import { CrudService } from '../../services/crud/crud.service';
 import { ObservablesService } from '../../services/observable/observable.service';
 
@@ -17,7 +16,9 @@ export class ConnectedPageComponent implements OnInit {
     // PROPERTIES
     public newsCollection: object;
     public sourcesCollection: object;
-    public userData: object;
+    public userData: any;
+    public bookmarks: any;
+    public source: any = '';
 
 
     // DEPENDENCIES INJECTION
@@ -31,14 +32,42 @@ export class ConnectedPageComponent implements OnInit {
                 this.userData = null;
             } else {
                 if (observerUserData) {
-                    // set local storage
-                    if (!localStorage.getItem('token')) {
-                        localStorage.setItem('token', JSON.stringify(observerUserData.token));
-                    }
                     // update userData value
                     this.userData = observerUserData;
                 } else {
                     this.userData = null;
+                }
+            }
+        });
+
+        this.ObservablesService.getObservableData('source').subscribe(observerSourceData => {
+            if (observerSourceData === null) {
+                // if nothing in observable (after reload for example), fall back to cache
+                if (localStorage.getItem('source')) {
+                    this.source = JSON.parse(localStorage.getItem('source'));
+                } else {
+                    this.source = null;
+                }
+            } else {
+                if (observerSourceData) {
+                    // update source value
+                    this.source = observerSourceData;
+                } else {
+                    this.source = null;
+                }
+            }
+        });
+
+        // get bookmarks from observer
+        this.ObservablesService.getObservableData('bookmarks').subscribe(observerBookmarksData => {
+            if (observerBookmarksData === null) {
+                this.bookmarks = null;
+            } else {
+                if (observerBookmarksData) {
+                    // update bookmarks value
+                    this.bookmarks = observerBookmarksData;
+                } else {
+                    this.bookmarks = null;
                 }
             }
         });
@@ -70,15 +99,49 @@ export class ConnectedPageComponent implements OnInit {
         this.saveSource(sourceSelectorFormData.source);
     };
 
+
     public saveSource = (sourceId) => {
+        // get source object from sourcesCollection with id obtained from select form
         for (let [key, source] of Object.entries(this.sourcesCollection)) {
             if (source.id == sourceId) {
-                // send data to observer and local storage
-                this.ObservablesService.setObservableData('source', source);
-                localStorage.setItem('source', JSON.stringify(source));
+                // update current source if different from previous
+                if (source !== this.source) {
+                    this.source = { info: source };
+                    this.source.alreadyBookmarked = false;
+                }
+
+                // check for bookmarks existence
+                if (this.bookmarks.length > 0) {
+                    // check if source is already bookmarked
+                    let alreadyBookmarked = this.bookmarks.find((bookmark) => {
+                        return bookmark.id == this.source.info.id;
+                    });
+
+                    // set alreadyBookmarked value accordingly
+                    if (alreadyBookmarked) { this.source.alreadyBookmarked = true; }
+                }
+
+                this.ObservablesService.setObservableData('source', this.source);
+                localStorage.setItem('source', JSON.stringify(this.source));
             }
         }
     }
+
+    // add bookmark
+    public addBookmark = async () => {
+        // if source is already bookmarked, return
+        if (this.source.alreadyBookmarked) {
+            return;
+        } else {
+            this.source.alreadyBookmarked = true;
+
+            let request = { ...this.source.info, token: localStorage.getItem('token') };
+            let newBookmark = await this.CrudService.addBookmark(request);
+
+            this.ObservablesService.setObservableData('source', this.source);
+            localStorage.setItem('source', JSON.stringify(this.source));
+        }
+    };
 
 
     // LIFECYCLE HOOKS

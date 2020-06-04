@@ -12,10 +12,12 @@ export class ObservablesService {
     // PROPERTIES
     protected user: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     protected token: BehaviorSubject<any> = new BehaviorSubject<any>(null);
-    protected news: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    protected bookmarks: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+
     protected sources: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     protected source: BehaviorSubject<any> = new BehaviorSubject<any>(null);
     protected keyword: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+    protected news: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
     constructor() { }
 
@@ -48,6 +50,10 @@ export class ObservablesService {
             this.keyword.next(data);
             break;
 
+        case 'bookmarks':
+            this.bookmarks.next(data);
+            break;
+
         default:
             break;
         }
@@ -78,7 +84,11 @@ export class ObservablesService {
 
         case 'keyword':
             return this.keyword;
-            break
+            break;
+
+        case 'bookmarks':
+            return this.bookmarks;
+            break;
 
         default:
             break;

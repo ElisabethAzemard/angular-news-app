@@ -1,4 +1,51 @@
-/* You can add global styles to this file, and also import other style files */
+
+$wine: hsl(346%, 47%, 29%); // dark red
+$ming: hsl(190%, 69%, 28%); // petrol blue
+$cosmic-cobalt: hsl(246%, 46%, 37%); // dark blue
+
+$gunmetal: hsl(231%, 12%, 21%); // dark grey
+$selective-yellow: hsl(45%, 99%, 49%); // yellow
+$red: hsl(352%, 76%, 43%); // red
+$grey-lighter: hsl(0, 0%, 86%);
+
+$grey-dark: $gunmetal;
+$grey-darker: $gunmetal;
+
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$link: $ming;
+$info: $cosmic-cobalt;
+$warning: $selective-yellow;
+$primary: $ming;
+$danger: $red;
+
+
+// Update some of Bulma's component variables
+$input-border-color: transparent;
+$input-shadow: none;
+
+$tag-background-color: $grey-lighter;
+$input-placeholder-color: $grey-lighter !important;
+
+$radius: 0;
+// Import only what you need from Bulma
+// @import "../node_modules/bulma/sass/utilities/_all.sass";
+// @import "../node_modules/bulma/sass/base/_all.sass";
+// @import "../node_modules/bulma/sass/elements/button.sass";
+// @import "../node_modules/bulma/sass/elements/container.sass";
+// @import "../node_modules/bulma/sass/elements/title.sass";
+// @import "../node_modules/bulma/sass/form/_all.sass";
+// @import "../node_modules/bulma/sass/components/navbar.sass";
+// @import "../node_modules/bulma/sass/layout/hero.sass";
+// @import "../node_modules/bulma/sass/layout/section.sass";
+
+@import "../node_modules/bulma/bulma.sass";
+
+// @import "src/app/shared/header/header.component.scss";
 .section {
     padding: 1.5rem 3rem;
+}
+
+.button, .button.is-small {
+    border-radius: 0;
 }

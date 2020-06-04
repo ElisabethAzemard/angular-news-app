@@ -48,7 +48,7 @@ export class NewsSourceSelectorComponent implements OnInit {
         });
 
         if (localStorage.getItem('source')) {
-            this.previousSourceId = JSON.parse(localStorage.getItem('source')).id;
+            this.previousSourceId = JSON.parse(localStorage.getItem('source')).info.id;
             this.formData.patchValue({ source: this.previousSourceId });
         }
 
