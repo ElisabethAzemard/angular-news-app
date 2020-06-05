@@ -1,5 +1,5 @@
 /* IMPORTS */
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { CrudService } from '../../services/crud/crud.service';
 import { ObservablesService } from '../../services/observable/observable.service';
@@ -136,7 +136,6 @@ export class ConnectedPageComponent implements OnInit {
 
                 // update observable & local storage
                 this.ObservablesService.setObservableData('source', this.source);
-                localStorage.setItem('source', JSON.stringify(this.source));
             }
         }
     }
@@ -173,7 +172,6 @@ export class ConnectedPageComponent implements OnInit {
 
             // update current source alreadyBookmarked value in observable & local storage
             this.ObservablesService.setObservableData('source', this.source);
-            localStorage.setItem('source', JSON.stringify(this.source));
         }
     };
 

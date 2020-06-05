@@ -61,9 +61,6 @@ export class AuthService {
         this.ObservablesService.setObservableData('user', apiResponse.data.user);
         this.ObservablesService.setObservableData('bookmarks', apiResponse.data.bookmark);
 
-        // set local storage
-        localStorage.setItem('bookmarks', JSON.stringify(apiResponse.data.bookmark));
-
         // Return data
         return apiResponse || {};
     };

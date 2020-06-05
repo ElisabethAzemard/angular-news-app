@@ -103,7 +103,6 @@ export class HomePageComponent implements OnInit {
             if (source.id == sourceSelectorFormData.source) {
                 // send source object to observer and local storage
                 this.ObservablesService.setObservableData('source', { info: source });
-                localStorage.setItem('source', JSON.stringify({ info: source }));
             }
         }
     };

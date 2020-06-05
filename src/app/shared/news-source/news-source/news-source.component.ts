@@ -26,10 +26,10 @@ export class NewsSourceComponent implements OnInit {
                 }
             } else {
                 if (observerBookmarksData) {
-                    // set local storage
-                    if (!localStorage.getItem('bookmarks')) {
-                        localStorage.setItem('bookmarks', JSON.stringify(observerBookmarksData));
-                    }
+                    // // set local storage
+                    // if (!localStorage.getItem('bookmarks')) {
+                    //     localStorage.setItem('bookmarks', JSON.stringify(observerBookmarksData));
+                    // }
                     // update bookmarks value
                     this.bookmarks = observerBookmarksData;
                 } else {

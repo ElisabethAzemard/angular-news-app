@@ -80,7 +80,6 @@ export class CrudService {
         case 'sources':
             // Set sources observable value & local storage
             this.ObservablesService.setObservableData('sources', apiResponse.sources);
-            localStorage.setItem('sources', JSON.stringify(apiResponse.sources));
 
             // Return data
             return apiResponse || {};
@@ -89,7 +88,6 @@ export class CrudService {
         case 'top-headlines':
             // Set news observable value & local storage
             this.ObservablesService.setObservableData('news', apiResponse.articles);
-            localStorage.setItem('news', JSON.stringify(apiResponse.articles));
 
             // Return data
             return apiResponse || {};

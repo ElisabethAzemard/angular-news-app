@@ -25,23 +25,29 @@ export class ObservablesService {
     public setObservableData = (type: string, data: any) => {
         switch (type) {
         case 'user':
-            this.user.next(data);
+                this.user.next(data);
             break;
 
         case 'sources':
             this.sources.next(data);
+            localStorage.setItem('sources', JSON.stringify(data));
             break;
 
         case 'news':
             this.news.next(data);
+            localStorage.setItem('news', JSON.stringify(data));
+
             break;
 
         case 'source':
             this.source.next(data);
+            localStorage.setItem('source', JSON.stringify(data));
             break;
 
         case 'bookmarks':
             this.bookmarks.next(data);
+            localStorage.setItem('bookmarks', JSON.stringify(data));
+
             break;
 
         default:

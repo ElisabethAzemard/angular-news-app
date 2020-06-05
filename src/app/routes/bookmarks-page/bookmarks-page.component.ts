@@ -18,17 +18,16 @@ export class BookmarksPageComponent implements OnInit {
     // PROPERTIES
     private bookmarks: any = [];
     private source: any;
-    private faHeartBroken = faHeartBroken;
-    private bookmarkNewsDisplayed: boolean = false;
     private bookmarkNews: any = false;
     private bookmarkNewsId: string;
+    private faHeartBroken = faHeartBroken;
 
 
     // DEPENDENCIES INJECTION
     constructor(
         private ObservablesService: ObservablesService,
-        private CrudService: CrudService
-    ){
+        private CrudService: CrudService)
+    {
         // get bookmarks from observer
         this.ObservablesService.getObservableData('bookmarks').subscribe(observerBookmarksData => {
             if (observerBookmarksData === null) {
@@ -60,17 +59,14 @@ export class BookmarksPageComponent implements OnInit {
 
         // update observable & local storage
         this.ObservablesService.setObservableData('bookmarks', newbookmarks);
-        localStorage.setItem('bookmarks', JSON.stringify(newbookmarks));
 
         // update current source alreadyBookmarked value
         if (this.source) {
             this.source.alreadyBookmarked = false;
-            localStorage.setItem('source', JSON.stringify(this.source));
             this.ObservablesService.setObservableData('source', this.source);
         }
     }
 
-    // @TODO: implement bookmark news view
     private toggleBookmarkNews = async (sourceId) => {
         if (!this.bookmarkNews) {
             this.bookmarkNews = await this.CrudService.getBookmarkNews(`sources=${sourceId}`);

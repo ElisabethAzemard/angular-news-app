@@ -23,7 +23,7 @@ export class AppComponent implements OnInit {
             this.AuthService.getCurrentUserInfo({ token: localStorage.getItem('token') })
                 .then((apiResponse) => {
                     if (apiResponse.message === 'User logged') {
-                        // return resolve(this.Router.navigateByUrl('/news'));
+                        return resolve(this.Router.navigateByUrl('/news'));
                     }
                 })
                 // don't reject with apiError to avoid console error on home page at first loading
