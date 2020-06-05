@@ -1,18 +1,20 @@
 /* IMPORTS */
-import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 
 /* DEFINITION & EXPORT */
 @Component({
     selector: 'app-login-form',
-    templateUrl: './login-form.component.html'
+    templateUrl: './login-form.component.html',
+    styleUrls: ['./login-form.component.scss']
 })
 export class LoginFormComponent implements OnInit {
 
     // PROPERTIES
     public formData: FormGroup;
     @Output() formSubmit = new EventEmitter();
+    @Output() notRegistered = new EventEmitter();
 
 
     // DEPENDENCIES INJECTION

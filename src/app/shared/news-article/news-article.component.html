@@ -2,7 +2,7 @@
     <div class="column is-narrow">
         <!-- Account for image being undefined OR null -->
         <figure *ngIf="!news.urlToImage || news.urlToImage == 'null'" class="image">
-            <img  src="https://bulma.io/images/placeholders/640x360.png" alt="no image">
+            <img  src="assets/img/no-image.jpg" alt="no image">
         </figure>
         <figure *ngIf="news.urlToImage && news.urlToImage != 'null'" class="image">
             <img src="{{ news.urlToImage }}" alt="{{ news.title }}">
@@ -13,7 +13,7 @@
             <h3 class="title is-3">{{ news.title }}</h3>
             <p class="subtitle heading"><span *ngIf="news.author">by {{news.author}} | </span>{{ news.publishedAt | date:'medium' }}</p>
             <p>{{ news.content | slice:0:180 }}...</p>
-            <a class="button is-primary is-small is-outlined" href="{{ news.url }}" target="_blank" rel="noopener">&rarr; Read more</a>
+            <a class="button is-primary is-small is-outlined is-block-mobile" href="{{ news.url }}" target="_blank" rel="noopener">&rarr; Read more</a>
         </div>
     </div>
 </div>

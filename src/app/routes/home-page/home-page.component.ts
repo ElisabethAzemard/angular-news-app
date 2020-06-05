@@ -20,6 +20,7 @@ export class HomePageComponent implements OnInit {
     // PROPERTIES
     newsCollection: object;
     sourcesCollection: object;
+    registered: boolean = true;
 
 
     // DEPENDENCIES INJECTION
@@ -36,7 +37,7 @@ export class HomePageComponent implements OnInit {
 
 
     // METHODS
-    // login
+    // log in
     private loginUser = async (credentials: string) => {
         // login user in service
         const userInfo = await this.AuthService.loginUser(credentials);
@@ -45,19 +46,24 @@ export class HomePageComponent implements OnInit {
         localStorage.setItem('token', userInfo.data.token);
         this.ObservablesService.setObservableData('token', userInfo.data.token);
 
-        // if user info, redirect to /connected
+        // if user info, redirect to /news
         if (userInfo) {
-            this.Router.navigateByUrl('/connected');
+            this.Router.navigateByUrl('/news');
         }
     };
 
-    // registration
+    // display registration form
+    public displayRegistrationForm = () => {
+        this.registered = false;
+    }
+
+    // register user
     public registerUser = async (user: UserModel) => {
         const userInfo = await this.AuthService.registerUser(user);
 
         // check user info
         if (userInfo) {
-            this.Router.navigateByUrl('/connected');
+            this.Router.navigateByUrl('/news');
         }
     };
 

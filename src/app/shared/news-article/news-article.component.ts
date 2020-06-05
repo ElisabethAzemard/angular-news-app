@@ -6,7 +6,7 @@ import { ObservablesService } from '../../services/observable/observable.service
 
 /* DEFINITION & EXPORT */
 @Component({
-    selector: 'app-item-post',
+    selector: 'app-news-article',
     templateUrl: './news-article.component.html',
     styleUrls: ['./news-article.component.scss']
 })

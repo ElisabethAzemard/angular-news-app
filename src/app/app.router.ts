@@ -14,7 +14,7 @@ export const AppRouterModule: Routes = [
         component: HomePageComponent
     },
     {
-        path: 'connected',
+        path: 'news',
         component: ConnectedPageComponent,
         canActivate: [AuthGuard]
     },

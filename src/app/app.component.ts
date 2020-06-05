@@ -23,11 +23,11 @@ export class AppComponent implements OnInit {
             this.AuthService.getCurrentUserInfo({ token: localStorage.getItem('token') })
                 .then((apiResponse) => {
                     if (apiResponse.message === 'User logged') {
-                        return resolve(this.Router.navigateByUrl('/connected'));
+                        return resolve(this.Router.navigateByUrl('/news'));
                     }
                 })
-                .catch((apiError: any) => {
-                    Promise.reject(apiError.error);
+                // don't reject with apiError to avoid console error on home page at first loading
+                .catch(() => {
                     this.Router.navigateByUrl('/');
                 });
         });

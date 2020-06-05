@@ -1,13 +1,17 @@
-<section class="section">
-    <h1 *ngIf="userData !== null"
-        class="title is-1">Welcome back, {{ userData.firstname | titlecase }}!</h1>
+<section
+    class="section"
+    *ngIf="userData !== null">
+    <p class="title is-1">Welcome back, {{ userData.firstname | titlecase }}!</p>
 </section>
+
 <section class="section">
     <app-news-source-selector (formSubmit)="getNewsFromSource($event)"></app-news-source-selector>
 </section>
+
 <app-news-source (addBookmark)="addBookmark($event)"></app-news-source>
+
 <section class="section">
     <article *ngFor="let newsItem of newsCollection">
-        <app-item-post [news]="newsItem"></app-item-post>
+        <app-news-article [news]="newsItem"></app-news-article>
     </article>
 </section>

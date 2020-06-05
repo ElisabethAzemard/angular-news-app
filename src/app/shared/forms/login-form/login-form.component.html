@@ -11,7 +11,7 @@
             required
             minlength="5"
             placeholder="Your email..."
-            class="input is-small is-small">
+            class="input is-primary is-small">
     </div>
     <div class="field">
         <input
@@ -21,12 +21,22 @@
             required
             minlength="5"
             placeholder="Your password..."
-            class="input is-small">
+            class="input is-primary is-small">
     </div>
-    <div class="field">
-        <button
-            [disabled]="!formData.valid"
-            type="submit"
-            class="button is-primary is-small">OK</button>
+    <div class="field level">
+        <div class="level-left">
+            <div class="level-item">
+                <button
+                    [disabled]="!formData.valid"
+                    type="submit"
+                    class="button is-primary is-small">OK</button>
+            </div>
+            <div class="level-item">
+                <a
+                    href="#registrationForm"
+                    role="button"
+                    (click)="notRegistered.emit()">Not registered yet?</a>
+            </div>
+        </div>
     </div>
 </form>

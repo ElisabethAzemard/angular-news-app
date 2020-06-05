@@ -1,4 +1,4 @@
-<h2 class="title is-2">Register</h2>
+<h2 class="title is-2" id="registrationForm">Register</h2>
 <form
     [formGroup]="formData"
     (submit)="formSubmit.emit(formData.value)"
@@ -9,28 +9,28 @@
             type="text"
             name="firstName"
             placeholder="Your first name..."
-            class="input is-small">
+            class="input is-primary is-small">
     </div>
     <div class="field">
         <input formControlName="lastname"
             type="text"
             name="lastName"
             placeholder="Your last name..."
-            class="input is-small">
+            class="input is-primary is-small">
     </div>
     <div class="field">
         <input formControlName="email"
             type="email"
             name="email"
             placeholder="Your email..."
-            class="input is-small">
+            class="input is-primary is-small">
     </div>
     <div class="field">
         <input formControlName="password"
             type="password"
             name="password"
             placeholder="Your password..."
-            class="input is-small">
+            class="input is-primary is-small">
     </div>
     <div class="field">
         <button

@@ -14,11 +14,11 @@ import { ObservablesService } from '../../services/observable/observable.service
 export class ConnectedPageComponent implements OnInit {
 
     // PROPERTIES
-    public newsCollection: object;
-    public sourcesCollection: object;
-    public userData: any;
-    public bookmarks: any;
-    public source: any = '';
+    private newsCollection: object;
+    private sourcesCollection: object;
+    private userData: any;
+    private bookmarks: any;
+    private source: any = '';
 
 
     // DEPENDENCIES INJECTION

@@ -1,14 +1,17 @@
 <section class="section">
-    <app-login-form (formSubmit)="loginUser($event)"></app-login-form>
+    <app-login-form (formSubmit)="loginUser($event)" (notRegistered)="displayRegistrationForm()"></app-login-form>
 </section>
-<section class="section">
+
+<section *ngIf="!registered" class="section">
     <app-register-form (formSubmit)="registerUser($event)"></app-register-form>
 </section>
+
 <section class="section">
     <app-news-source-selector (formSubmit)="getNewsFromSource($event)"></app-news-source-selector>
 </section>
+
 <section class="section">
     <article *ngFor="let newsItem of newsCollection">
-        <app-item-post [news]="newsItem"></app-item-post>
+        <app-news-article [news]="newsItem"></app-news-article>
     </article>
 </section>

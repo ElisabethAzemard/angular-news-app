@@ -6,3 +6,9 @@
 }
 
 .navbar-brand { padding: 1rem 1.5rem; }
+
+@media screen and (min-width:1024px){
+    .navbar-start.navbar-item {
+        color: #fff;
+    }
+}
