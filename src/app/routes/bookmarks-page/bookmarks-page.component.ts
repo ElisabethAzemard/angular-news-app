@@ -19,6 +19,9 @@ export class BookmarksPageComponent implements OnInit {
     private bookmarks: any = [];
     private source: any;
     private faHeartBroken = faHeartBroken;
+    private bookmarkNewsDisplayed: boolean = false;
+    private bookmarkNews: any = false;
+    private bookmarkNewsId: string;
 
 
     // DEPENDENCIES INJECTION
@@ -41,25 +44,6 @@ export class BookmarksPageComponent implements OnInit {
                     this.bookmarks = observerBookmarksData;
                 } else {
                     this.bookmarks = null;
-                }
-            }
-        });
-
-        // get source from observer
-        this.ObservablesService.getObservableData('source').subscribe(observerSourceData => {
-            if (observerSourceData === null) {
-                // if nothing in observable (after reload for example), fall back to local storage
-                if (localStorage.getItem('source')) {
-                    this.source = JSON.parse(localStorage.getItem('source'));
-                } else {
-                    this.source = null;
-                }
-            } else {
-                if (observerSourceData) {
-                    // update source value
-                    this.source = observerSourceData;
-                } else {
-                    this.source = null;
                 }
             }
         });
@@ -87,9 +71,20 @@ export class BookmarksPageComponent implements OnInit {
     }
 
     // @TODO: implement bookmark news view
+    private toggleBookmarkNews = async (sourceId) => {
+        if (!this.bookmarkNews) {
+            this.bookmarkNews = await this.CrudService.getBookmarkNews(`sources=${sourceId}`);
+            this.bookmarkNewsId = sourceId;
+        } else {
+            this.bookmarkNews = false;
+            this.bookmarkNewsId = '';
+        }
+    }
 
 
     // LIFECYCLE HOOKS
-    ngOnInit() { }
+    ngOnInit() {
+
+    }
 
 }

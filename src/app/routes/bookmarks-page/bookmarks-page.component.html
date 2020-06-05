@@ -1,7 +1,8 @@
 <section *ngIf="bookmarks" class="section">
-    <article *ngFor="let bookmark of bookmarks" class="is-small">
+    <article *ngFor="let bookmark of bookmarks"
+        class="is-small">
         <div class="message-header has-background-dark">
-            <p>{{ bookmark.name }}</p>
+            <h2>{{ bookmark.name }}</h2>
             <button class="button is-danger is-small"
                 id="removeFromBookmarks"
                 (click)="removeBookmark(bookmark._id)">
@@ -33,6 +34,18 @@
                         <span class="tag is-primary heading">{{ bookmark.country}}</span>
                     </div>
                 </div>
+            </div>
+            <button
+                class="button is-small"
+                [ngClass]="bookmarkNews ? 'is-dark-lighter' : 'is-dark'"
+                (click)="toggleBookmarkNews(bookmark.id)">
+                <span *ngIf="bookmarkNews == false">Read news</span>
+                <span *ngIf="bookmarkNews">Hide news</span>
+            </button>
+            <div *ngIf="bookmarkNews && bookmarkNewsId == bookmark.id" class="headlines">
+                <article *ngFor="let newsItem of bookmarkNews">
+                    <app-news-article [news]="newsItem"></app-news-article>
+                </article>
             </div>
         </div>
     </article>

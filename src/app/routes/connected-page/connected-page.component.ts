@@ -148,9 +148,9 @@ export class ConnectedPageComponent implements OnInit {
 
         // if no keyword, don't send the parameter
         if (sourceSelectorFormData.keyword === null) {
-            response = await this.CrudService.getTopHeadlines('top-headlines', `sources=${sourceSelectorFormData.source}`);
+            response = await this.CrudService.getTopHeadlines(`sources=${sourceSelectorFormData.source}`);
         } else {
-            response = await this.CrudService.getTopHeadlines('top-headlines', `sources=${sourceSelectorFormData.source}`, `q=${sourceSelectorFormData.keyword}`);
+            response = await this.CrudService.getTopHeadlines(`sources=${sourceSelectorFormData.source}`, `q=${sourceSelectorFormData.keyword}`);
             localStorage.setItem('keyword', sourceSelectorFormData.keyword);
         }
 

@@ -1,40 +1,60 @@
-// Define theme colors
-$wine: hsl(346%, 47%, 29%); // dark red
+// ----- COLORS -----
+// custom colors
 $ming: hsl(190%, 69%, 28%); // petrol blue
-$cosmic-cobalt: hsl(246%, 46%, 37%); // dark blue
+$ming-dark: hsl(190%, 69%, 14%); // dark petrol blue
+$ming-light: hsl(190%, 69%, 28%, .85); // light petrol blue
 
-$gunmetal: hsl(231%, 12%, 21%); // dark grey
-$grey: hsl(231%, 12%, 55%); // lighter dark grey
-$selective-yellow: hsl(45%, 99%, 49%); // yellow
+$gunmetal: hsl(231%, 12%, 55%); // dark grey
+$dark-gunmetal: hsl(231%, 12%, 21%); // darker grey
 $red: hsl(352%, 76%, 43%); // red
 
+$custom-colors: (
+    'primary-light': $ming-light,
+    'dark-lighter': $gunmetal
+);
+
+// redefine some of Bulma's colors
 $grey-lighter: hsl(0, 0%, 86%);
-$grey-dark: $grey;
-$grey-darker: $gunmetal;
+$grey-dark: $gunmetal;
+$grey-darker: $dark-gunmetal;
 
-
-// Update Bulma's global variables
-$family-sans-serif: "Nunito", sans-serif;
-$link: $ming;
-$info: $cosmic-cobalt;
-$warning: $selective-yellow;
+// theme colors
 $primary: $ming;
+$link: $ming-dark;
 $danger: $red;
 
-$navbar-item-color: $ming;
 
+// ----- ELEMENTS COLORS -----
+// global text
+$text: $grey-darker;
 
-// Update some of Bulma's component variables
+// navbar
+$navbar-item-color: $primary;
+
+// inputs
 $input-border-color: transparent;
 $input-shadow: none;
 
+// tags
 $tag-background-color: $grey-lighter;
 $input-placeholder-color: $grey-dark;
 
+// message (bookmark)
+$message-header-background-color: $ming-light;
+
+// global radius
 $radius: 0;
 
+
+// ----- FONT -----
+$family-sans-serif: "Nunito", sans-serif;
+
+
+// ----- IMPORTS -----
 @import "../node_modules/bulma/bulma.sass";
 
+
+// ----- GLOBAL STYLES -----
 @media screen and (min-width:769px){
     .section {
         padding: 1.5rem 3rem;

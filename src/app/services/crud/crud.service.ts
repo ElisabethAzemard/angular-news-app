@@ -39,10 +39,18 @@ export class CrudService {
 
     // ----- NEWS -----
     // CRUD: get top headlines from one source
-    public getTopHeadlines(endpoint: string, param1: string = 'language=en', param2?: string): Promise<any> {
-        return this.HttpClient.get(`${environment.newsApiUrl}/${endpoint}?${param1}&${param2}&apiKey=${environment.newsApiKey}`)
+    public getTopHeadlines(sources: string, keyword?: string): Promise<any> {
+        return this.HttpClient.get(`${environment.newsApiUrl}/top-headlines?${sources}&${keyword}&apiKey=${environment.newsApiKey}`)
             .toPromise()
-            .then(data => this.getData(endpoint, data))
+            .then(data => this.getData('top-headlines', data))
+            .catch(this.handleError);
+    }
+
+    // CRUD: get top headlines from one source
+    public getBookmarkNews(sources: string): Promise<any> {
+        return this.HttpClient.get(`${environment.newsApiUrl}/top-headlines?${sources}&apiKey=${environment.newsApiKey}`)
+            .toPromise()
+            .then(data => this.getData('bookmark-news', data))
             .catch(this.handleError);
     }
 
@@ -85,6 +93,15 @@ export class CrudService {
 
             // Return data
             return apiResponse || {};
+            break;
+
+        case 'bookmark-news':
+            // Set news observable value & local storage
+            this.ObservablesService.setObservableData('bookmark-news', apiResponse.articles);
+            localStorage.setItem('bookmark-news', JSON.stringify(apiResponse.articles));
+
+            // Return data
+            return apiResponse.articles || {};
             break;
 
         default:
