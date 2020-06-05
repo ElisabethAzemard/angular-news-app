@@ -18,6 +18,7 @@ export class CrudService {
     ) { }
 
     // METHODS
+    // ----- REQUEST SETTINGS -----
     // request headers setting
     private setHeaders = () => {
         const myHeader = new HttpHeaders();
@@ -27,14 +28,7 @@ export class CrudService {
         return myHeader;
     };
 
-    // CRUD: get top headlines from one source
-    public getTopHeadlines(endpoint: string, param1: string = 'language=en', param2?: string): Promise<any> {
-        return this.HttpClient.get(`${environment.newsApiUrl}/${endpoint}?${param1}&${param2}&apiKey=${environment.newsApiKey}`)
-            .toPromise()
-            .then(data => this.getData(endpoint, data))
-            .catch(this.handleError);
-    }
-
+    // ----- SOURCES -----
     // CRUD: get all sources & bookmarks from API
     public getAllSources(): Promise<any> {
         return this.HttpClient.get(`${environment.newsApiUrl}/sources?apiKey=${environment.newsApiKey}`)
@@ -43,6 +37,16 @@ export class CrudService {
             .catch(this.handleError);
     }
 
+    // ----- NEWS -----
+    // CRUD: get top headlines from one source
+    public getTopHeadlines(endpoint: string, param1: string = 'language=en', param2?: string): Promise<any> {
+        return this.HttpClient.get(`${environment.newsApiUrl}/${endpoint}?${param1}&${param2}&apiKey=${environment.newsApiKey}`)
+            .toPromise()
+            .then(data => this.getData(endpoint, data))
+            .catch(this.handleError);
+    }
+
+    // ----- BOOKMARKS -----
     // CRUD: add bookmark
     public addBookmark(source: any): Promise<any> {
         return this.HttpClient.post(`${environment.authApiUrl}/bookmark`, source)
@@ -59,16 +63,15 @@ export class CrudService {
             .catch(this.handleError);
     }
 
+
+    // ----- RESPONSE HANDLING -----
     // get api response
     private getData = (endpoint, apiResponse: any) => {
-        // @TODO: don't switch endpoint, add as a variable in call to local storage & observer ?
         // Switch endpoint to set observable value
         switch (endpoint) {
         case 'sources':
-            // Set sources observable value
+            // Set sources observable value & local storage
             this.ObservablesService.setObservableData('sources', apiResponse.sources);
-
-            // add to local storage
             localStorage.setItem('sources', JSON.stringify(apiResponse.sources));
 
             // Return data
@@ -76,15 +79,10 @@ export class CrudService {
             break;
 
         case 'top-headlines':
-            // Set news observable value
+            // Set news observable value & local storage
             this.ObservablesService.setObservableData('news', apiResponse.articles);
             localStorage.setItem('news', JSON.stringify(apiResponse.articles));
 
-            // Return data
-            return apiResponse || {};
-            break;
-
-        case 'bookmark':
             // Return data
             return apiResponse || {};
             break;

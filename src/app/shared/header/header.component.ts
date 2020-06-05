@@ -19,6 +19,8 @@ export class HeaderComponent implements OnInit {
     public userData: object;
     // public userBookmarks: SourceModel[];
 
+    // @TODO: implement model for sources / news / bookmarks
+
     constructor(private ObservablesService: ObservablesService, private Router: Router) {
         // Get user data observer
         this.ObservablesService.getObservableData('user').subscribe(userDataObserver => {
@@ -42,19 +44,19 @@ export class HeaderComponent implements OnInit {
     public logout = () => {
         // Delete localstorage
         localStorage.removeItem('token');
-        localStorage.removeItem('bookmarks');
-        localStorage.removeItem('news');
         localStorage.removeItem('source');
+        localStorage.removeItem('keyword');
+        localStorage.removeItem('news');
+        localStorage.removeItem('bookmarks');
 
         // Set user info observable value
         this.ObservablesService.setObservableData('user', null);
-        this.ObservablesService.setObservableData('token', null);
         this.ObservablesService.setObservableData('sources', null);
         this.ObservablesService.setObservableData('news', null);
         this.Router.navigateByUrl('/');
     };
 
-    public openBurgerNav = () => {
+    public toggleBurgerNav = () => {
 
         const burger = document.querySelector('.navbar-burger');
         const menu = document.querySelector('.navbar-menu');
@@ -68,9 +70,11 @@ export class HeaderComponent implements OnInit {
 
     }
 
+    // @TODO: move all redundant methods here from connected page + home page
+
     // LIFECYCLE HOOKS
     ngOnInit() {
-        this.openBurgerNav();
+        this.toggleBurgerNav();
     }
 
 }

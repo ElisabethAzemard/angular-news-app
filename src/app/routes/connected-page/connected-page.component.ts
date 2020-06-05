@@ -40,9 +40,10 @@ export class ConnectedPageComponent implements OnInit {
             }
         });
 
+        // get current source from observer
         this.ObservablesService.getObservableData('source').subscribe(observerSourceData => {
             if (observerSourceData === null) {
-                // if nothing in observable (after reload for example), fall back to cache
+                // if nothing in observable (after reload for example), fall back to local storage
                 if (localStorage.getItem('source')) {
                     this.source = JSON.parse(localStorage.getItem('source'));
                 } else {
@@ -58,10 +59,34 @@ export class ConnectedPageComponent implements OnInit {
             }
         });
 
+        // get current news from observer
+        this.ObservablesService.getObservableData('news').subscribe(observerNewsData => {
+            if (observerNewsData === null) {
+                // if nothing in observable (after reload for example), fall back to local storage
+                if (localStorage.getItem('news')) {
+                    this.newsCollection = JSON.parse(localStorage.getItem('news'));
+                } else {
+                    this.newsCollection = null;
+                }
+            } else {
+                if (observerNewsData) {
+                    // update news value
+                    this.newsCollection = observerNewsData;
+                } else {
+                    this.newsCollection = null;
+                }
+            }
+        });
+
         // get bookmarks from observer
         this.ObservablesService.getObservableData('bookmarks').subscribe(observerBookmarksData => {
             if (observerBookmarksData === null) {
-                this.bookmarks = null;
+                // if nothing in observable (after reload for example), fall back to local storage
+                if (localStorage.getItem('bookmarks')) {
+                    this.bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+                } else {
+                    this.bookmarks = null;
+                }
             } else {
                 if (observerBookmarksData) {
                     // update bookmarks value
@@ -75,30 +100,18 @@ export class ConnectedPageComponent implements OnInit {
 
 
     // METHODS
-    // get all sources
+
+    // ----- SOURCES -----
+    // get all sources from local storage, fall back to API
     public getAllSources = async () => {
-        const response = await this.CrudService.getAllSources();
-        this.sourcesCollection = response.sources;
-    };
-
-    // get news from selected source
-    public getNewsFromSource = async (sourceSelectorFormData: any) => {
-        let response;
-
-        // if no keyword, don't send the parameter
-        if (sourceSelectorFormData.keyword === null) {
-            response = await this.CrudService.getTopHeadlines('top-headlines', `sources=${sourceSelectorFormData.source}`);
+        if (localStorage.getItem('sources')) {
+            this.sourcesCollection = JSON.parse(localStorage.getItem('sources'));
+            this.ObservablesService.setObservableData('sources', JSON.parse(localStorage.getItem('sources')));
         } else {
-            response = await this.CrudService.getTopHeadlines('top-headlines', `sources=${sourceSelectorFormData.source}`, `q=${sourceSelectorFormData.keyword}`);
-            localStorage.setItem('keyword', sourceSelectorFormData.keyword);
+            const response = await this.CrudService.getAllSources();
+            this.sourcesCollection = response.sources;
         }
-
-        this.newsCollection = response.articles;
-
-        // send current source to Observer & local storage
-        this.saveSource(sourceSelectorFormData.source);
     };
-
 
     public saveSource = (sourceId) => {
         // get source object from sourcesCollection with id obtained from select form
@@ -121,23 +134,44 @@ export class ConnectedPageComponent implements OnInit {
                     if (alreadyBookmarked) { this.source.alreadyBookmarked = true; }
                 }
 
+                // update observable & local storage
                 this.ObservablesService.setObservableData('source', this.source);
                 localStorage.setItem('source', JSON.stringify(this.source));
             }
         }
     }
 
+    // ----- NEWS -----
+    // get top 10 news of selected source from API
+    public getNewsFromSource = async (sourceSelectorFormData: any) => {
+        let response;
+
+        // if no keyword, don't send the parameter
+        if (sourceSelectorFormData.keyword === null) {
+            response = await this.CrudService.getTopHeadlines('top-headlines', `sources=${sourceSelectorFormData.source}`);
+        } else {
+            response = await this.CrudService.getTopHeadlines('top-headlines', `sources=${sourceSelectorFormData.source}`, `q=${sourceSelectorFormData.keyword}`);
+            localStorage.setItem('keyword', sourceSelectorFormData.keyword);
+        }
+
+        this.newsCollection = response.articles;
+
+        // send current source to Observer & local storage
+        this.saveSource(sourceSelectorFormData.source);
+    };
+
+    // ----- BOOKMARKS -----
     // add bookmark
     public addBookmark = async () => {
         // if source is already bookmarked, return
         if (this.source.alreadyBookmarked) {
             return;
         } else {
+            // update alreadyBookmarked value & send source info to auth API
             this.source.alreadyBookmarked = true;
+            await this.CrudService.addBookmark({ ...this.source.info, token: localStorage.getItem('token') });
 
-            let request = { ...this.source.info, token: localStorage.getItem('token') };
-            let newBookmark = await this.CrudService.addBookmark(request);
-
+            // update current source alreadyBookmarked value in observable & local storage
             this.ObservablesService.setObservableData('source', this.source);
             localStorage.setItem('source', JSON.stringify(this.source));
         }
@@ -146,19 +180,8 @@ export class ConnectedPageComponent implements OnInit {
 
     // LIFECYCLE HOOKS
     ngOnInit() {
-        // @TODO : use Observer, fallback to local storage and then API => do it in Constructor
-        // get sources from local storage, fall back to API
-        if (localStorage.getItem('sources')) {
-            this.sourcesCollection = JSON.parse(localStorage.getItem('sources'));
-            this.ObservablesService.setObservableData('sources', JSON.parse(localStorage.getItem('sources')));
-        } else {
-            this.getAllSources();
-        }
-
-        // get news from local storage
-        if (localStorage.getItem('news')) {
-            this.newsCollection = JSON.parse(localStorage.getItem('news'));
-        }
+        // get all sources
+        this.getAllSources();
     }
 
 }

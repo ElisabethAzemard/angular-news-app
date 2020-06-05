@@ -1,6 +1,6 @@
 <section *ngIf="bookmarks" class="section">
     <article *ngFor="let bookmark of bookmarks" class="is-small">
-        <div class="message-header">
+        <div class="message-header has-background-dark">
             <p>{{ bookmark.name }}</p>
             <button class="button is-danger is-small"
                 id="removeFromBookmarks"

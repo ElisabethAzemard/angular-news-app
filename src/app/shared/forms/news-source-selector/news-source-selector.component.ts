@@ -27,6 +27,7 @@ export class NewsSourceSelectorComponent implements OnInit {
         // Get news sources data from observer
         this.ObservablesService.getObservableData('sources').subscribe(observerNewsSourcesData => {
             if (observerNewsSourcesData === null) {
+                // @TODO check local storage + where it's set
                 this.newsSources = null;
             } else {
                 if (observerNewsSourcesData) {

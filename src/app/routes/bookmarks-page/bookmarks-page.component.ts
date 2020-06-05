@@ -67,11 +67,12 @@ export class BookmarksPageComponent implements OnInit {
 
 
     // METHODS
+    // ----- BOOKMARKS -----
     // remove bookmark
     private removeBookmark = async (bookmarkId: number) => {
         // remove from API & from tempate
         await this.CrudService.removeBookmark(bookmarkId, { token: localStorage.getItem('token') });
-        let newbookmarks = this.bookmarks.filter(bookmark => { return bookmark._id !== bookmarkId; });
+        const newbookmarks = this.bookmarks.filter(bookmark => { return bookmark._id !== bookmarkId; });
 
         // update observable & local storage
         this.ObservablesService.setObservableData('bookmarks', newbookmarks);
@@ -84,6 +85,8 @@ export class BookmarksPageComponent implements OnInit {
             this.ObservablesService.setObservableData('source', this.source);
         }
     }
+
+    // @TODO: implement bookmark news view
 
 
     // LIFECYCLE HOOKS
