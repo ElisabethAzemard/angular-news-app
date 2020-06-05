@@ -1,11 +1,11 @@
 /* IMPORTS */
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { faHeartBroken } from '@fortawesome/free-solid-svg-icons';
 
 import { CrudService } from '../../services/crud/crud.service';
 import { ObservablesService } from '../../services/observable/observable.service';
-import { AuthService } from '../../services/auth/auth.service';
+
 
 /* DEFINITION & EXPORT */
 @Component({
@@ -18,18 +18,23 @@ export class BookmarksPageComponent implements OnInit {
     // PROPERTIES
     private bookmarks: any = [];
     private source: any;
-    faHeartBroken = faHeartBroken;
+    private faHeartBroken = faHeartBroken;
 
 
     // DEPENDENCIES INJECTION
     constructor(
         private ObservablesService: ObservablesService,
-        private AuthService: AuthService,
-        private CrudService: CrudService) {
+        private CrudService: CrudService
+    ){
         // get bookmarks from observer
         this.ObservablesService.getObservableData('bookmarks').subscribe(observerBookmarksData => {
             if (observerBookmarksData === null) {
-                this.bookmarks = null;
+                // if nothing in observable (after reload for example), fall back to local storage
+                if (localStorage.getItem('bookmarks')) {
+                    this.bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
+                } else {
+                    this.bookmarks = null;
+                }
             } else {
                 if (observerBookmarksData) {
                     // update bookmarks value
@@ -40,9 +45,10 @@ export class BookmarksPageComponent implements OnInit {
             }
         });
 
+        // get source from observer
         this.ObservablesService.getObservableData('source').subscribe(observerSourceData => {
             if (observerSourceData === null) {
-                // if nothing in observable (after reload for example), fall back to cache
+                // if nothing in observable (after reload for example), fall back to local storage
                 if (localStorage.getItem('source')) {
                     this.source = JSON.parse(localStorage.getItem('source'));
                 } else {
@@ -63,12 +69,15 @@ export class BookmarksPageComponent implements OnInit {
     // METHODS
     // remove bookmark
     private removeBookmark = async (bookmarkId: number) => {
-        let bookmarkRemoved = await this.CrudService.removeBookmark(bookmarkId, { token: localStorage.getItem('token') });
+        // remove from API & from tempate
+        await this.CrudService.removeBookmark(bookmarkId, { token: localStorage.getItem('token') });
         let newbookmarks = this.bookmarks.filter(bookmark => { return bookmark._id !== bookmarkId; });
+
+        // update observable & local storage
         this.ObservablesService.setObservableData('bookmarks', newbookmarks);
         localStorage.setItem('bookmarks', JSON.stringify(newbookmarks));
 
-        // only if source already defined
+        // update current source alreadyBookmarked value
         if (this.source) {
             this.source.alreadyBookmarked = false;
             localStorage.setItem('source', JSON.stringify(this.source));
@@ -78,7 +87,6 @@ export class BookmarksPageComponent implements OnInit {
 
 
     // LIFECYCLE HOOKS
-    ngOnInit() {
-    }
+    ngOnInit() { }
 
 }
