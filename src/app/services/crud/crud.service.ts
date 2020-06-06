@@ -96,7 +96,6 @@ export class CrudService {
         case 'bookmark-news':
             // Set news observable value & local storage
             this.ObservablesService.setObservableData('bookmark-news', apiResponse.articles);
-            localStorage.setItem('bookmark-news', JSON.stringify(apiResponse.articles));
 
             // Return data
             return apiResponse.articles || {};

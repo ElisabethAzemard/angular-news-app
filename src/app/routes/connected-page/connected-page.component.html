@@ -5,7 +5,7 @@
 </section>
 
 <section class="section">
-    <app-news-source-selector (formSubmit)="getNewsFromSource($event)"></app-news-source-selector>
+    <app-news-source-selector [bookmarks]="bookmarks"></app-news-source-selector>
 </section>
 
 <app-news-source (addBookmark)="addBookmark($event)"></app-news-source>

@@ -1,8 +1,10 @@
 /* IMPORTS */
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
+import { CrudService } from 'src/app/services/crud/crud.service';
 import { ObservablesService } from 'src/app/services/observable/observable.service';
+import { ActivatedRoute } from '@angular/router';
 
 
 /* DEFINITION & EXPORT */
@@ -14,29 +16,40 @@ import { ObservablesService } from 'src/app/services/observable/observable.servi
 export class NewsSourceSelectorComponent implements OnInit {
 
     // PROPERTIES
-    public formData: FormGroup;
-    @Output() formSubmit = new EventEmitter();
-    newsSources: object;
-    newsList: object;
+    @Input() bookmarks: any;
+    @Output() allNews = new EventEmitter();
+    @Output() allSources = new EventEmitter();
+    @Output() currentSource = new EventEmitter();
+    formData: FormGroup;
     previousKeyword: string;
     previousSourceId: string;
+    newsCollection: any;
+    sourcesCollection: any;
+    source: any = '';
 
 
     // DEPENDENCIES INJECTION
-    constructor(private FormBuilder: FormBuilder, private ObservablesService: ObservablesService) {
-        // Get news sources data from observer
-        this.ObservablesService.getObservableData('sources').subscribe(observerNewsSourcesData => {
-            if (observerNewsSourcesData === null) {
-                // @TODO check local storage + where it's set
-                this.newsSources = null;
-            } else {
-                if (observerNewsSourcesData) {
-                    this.newsSources = observerNewsSourcesData;
-                } else {
-                    this.newsSources = null;
-                }
-            }
-        });
+    constructor(
+        private FormBuilder: FormBuilder,
+        private ObservablesService: ObservablesService,
+        private CrudService: CrudService)
+    {
+        // get news sources data from observer
+        this.ObservablesService
+            .getObservableData('sources')
+            .subscribe(observerNewsSourcesData => { this.sourcesCollection = observerNewsSourcesData; });
+
+        // get current source data from observer
+        this.ObservablesService
+            .getObservableData('source')
+            .subscribe(observerNewsSourceData => { this.source = observerNewsSourceData; });
+
+        // get current news from observer
+        this.ObservablesService
+            .getObservableData('news')
+            .subscribe(observerNewsData => {
+                this.newsCollection = observerNewsData;
+            });
     }
 
 
@@ -59,10 +72,75 @@ export class NewsSourceSelectorComponent implements OnInit {
         }
     };
 
+    // ----- SOURCES -----
+    // get all sources
+    public getAllSources = async () => {
+        if (localStorage.getItem('sources')) {
+            this.sourcesCollection = JSON.parse(localStorage.getItem('sources'));
+            this.ObservablesService.setObservableData('sources', this.sourcesCollection);
+        } else {
+            const response = await this.CrudService.getAllSources();
+            this.sourcesCollection = response.sources;
+        }
+    };
+
+    // ----- NEWS -----
+    public getNewsFromSource = async (sourceSelectorFormData: any) => {
+        let response;
+
+        // if no keyword, don't send the parameter
+        if (sourceSelectorFormData.keyword === null) {
+            response = await this.CrudService.getTopHeadlines(`sources=${sourceSelectorFormData.source}`);
+        } else {
+            response = await this.CrudService.getTopHeadlines(`sources=${sourceSelectorFormData.source}`, `q=${sourceSelectorFormData.keyword}`);
+            localStorage.setItem('keyword', sourceSelectorFormData.keyword);
+        }
+
+        this.newsCollection = response.articles;
+        this.ObservablesService.setObservableData('news', this.newsCollection);
+
+        // send current source to Observer & local storage
+        this.saveSource(sourceSelectorFormData.source);
+    };
+
+    public saveSource = (sourceId) => {
+        // get source object from sourcesCollection with id obtained from select form
+        for (let [key, source] of Object.entries(this.sourcesCollection)) {
+            if (source.id == sourceId) {
+                // check if there are bookmarks on the page (not on home)
+                if (this.bookmarks) {
+                    // update current source if different from previous
+                    if (source !== this.source) {
+                        this.source = { info: source };
+                        this.source.alreadyBookmarked = false;
+                    }
+
+                    // check for bookmarks existence
+                    if (this.bookmarks.length > 0) {
+                        // check if source is already bookmarked
+                        let alreadyBookmarked = this.bookmarks.find((bookmark) => {
+                            return bookmark.id == this.source.info.id;
+                        });
+
+                        // set alreadyBookmarked value accordingly
+                        if (alreadyBookmarked) { this.source.alreadyBookmarked = true; }
+                    }
+
+                    // update observable & local storage
+                    this.ObservablesService.setObservableData('source', this.source);
+                } else {
+                    // send source object to observer and local storage
+                    this.ObservablesService.setObservableData('source', { info: source });
+                }
+            }
+        }
+    }
+
 
     // LIFECYCLE HOOKS
     ngOnInit() {
         this.resetForm();
+        this.getAllSources();
     }
 
 }

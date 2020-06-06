@@ -1,8 +1,9 @@
+/* IMPORTS */
 import { Component, OnInit } from '@angular/core';
-import { ObservablesService } from '../../services/observable/observable.service';
 import { Router } from '@angular/router';
+
+import { ObservablesService } from '../../services/observable/observable.service';
 // import { UserModel } from "../../models/user.model";
-// import { SourceModel } from "../../models/source.model";
 
 /* DEFINITION & EXPORT */
 @Component({
@@ -12,51 +13,43 @@ import { Router } from '@angular/router';
 })
 export class HeaderComponent implements OnInit {
 
-    /*
-    Declaration
-    */
-    // Properties
+    // PROPERTIES
     public userData: object;
-    // public userBookmarks: SourceModel[];
+    // public userBookmarks: SourceModel[]; -> example for typing with models
 
     // @TODO: implement model for sources / news / bookmarks
 
-    constructor(private ObservablesService: ObservablesService, private Router: Router) {
-        // Get user data observer
-        this.ObservablesService.getObservableData('user').subscribe(userDataObserver => {
-            if (userDataObserver === null) {
-                this.userData = null;
-            } else {
-                if (userDataObserver) {
-                    // Update userData value
-                    this.userData = userDataObserver;
-                } else {
-                    this.userData = null;
-                }
-            }
-        });
-
-        // Get bookmark observer
+    // DEPENDENCIES INJECTION
+    constructor(
+        private ObservablesService: ObservablesService,
+        private Router: Router)
+    {
+        // get user data observer
+        this.ObservablesService
+            .getObservableData('user')
+            .subscribe(userDataObserver => { this.userData = userDataObserver; });
     }
 
 
     // METHODS
+    // log out user
     public logout = () => {
-        // Delete localstorage
-        localStorage.removeItem('token');
-        localStorage.removeItem('source');
-        localStorage.removeItem('keyword');
-        localStorage.removeItem('news');
-        localStorage.removeItem('bookmarks');
-
         // Set user info observable value
         this.ObservablesService.setObservableData('user', null);
         this.ObservablesService.setObservableData('sources', null);
         this.ObservablesService.setObservableData('news', null);
+        this.ObservablesService.setObservableData('bookmarks', null);
+        this.ObservablesService.setObservableData('bookmark-news', null);
+        this.ObservablesService.setObservableData('source', null);
+
+        // Delete remaining localstorage
+        localStorage.removeItem('token');
+        localStorage.removeItem('keyword');
+
         this.Router.navigateByUrl('/');
     };
 
-    public toggleBurgerNav = () => {
+    public setToggleBurgerNavEventListener = () => {
 
         const burger = document.querySelector('.navbar-burger');
         const menu = document.querySelector('.navbar-menu');
@@ -70,11 +63,10 @@ export class HeaderComponent implements OnInit {
 
     }
 
-    // @TODO: move all redundant methods here from connected page + home page
 
     // LIFECYCLE HOOKS
     ngOnInit() {
-        this.toggleBurgerNav();
+        this.setToggleBurgerNavEventListener();
     }
 
 }

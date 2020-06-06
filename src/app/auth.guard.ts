@@ -26,8 +26,8 @@ export class AuthGuard implements CanActivate {
                         this.Router.navigateByUrl('/');
                     }
                 })
-                .catch((apiError: any) => {
-                    Promise.reject(apiError.error);
+                // don't reject with apiError to avoid console error on home page at first loading
+                .catch(() => {
                     this.Router.navigateByUrl('/');
                 });
         });

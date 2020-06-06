@@ -1,12 +1,12 @@
 <h2 class="title is-2">Start a search</h2>
 <form [formGroup]="formData"
-    (submit)="formSubmit.emit(formData.value)"
+    (submit)="getNewsFromSource(formData.value)"
     class="form">
     <div class="field">
         <div class="select is-primary is-fullwidth is-small">
             <select formControlName="source">
                 <option value="null">Select a source</option>
-                <option *ngFor="let source of newsSources" [value]="source.id">{{ source.name }}</option>
+                <option *ngFor="let source of sourcesCollection" [value]="source.id">{{ source.name }}</option>
             </select>
         </div>
     </div>

@@ -29,23 +29,14 @@ export class BookmarksPageComponent implements OnInit {
         private CrudService: CrudService)
     {
         // get bookmarks from observer
-        this.ObservablesService.getObservableData('bookmarks').subscribe(observerBookmarksData => {
-            if (observerBookmarksData === null) {
-                // if nothing in observable (after reload for example), fall back to local storage
-                if (localStorage.getItem('bookmarks')) {
-                    this.bookmarks = JSON.parse(localStorage.getItem('bookmarks'));
-                } else {
-                    this.bookmarks = null;
-                }
-            } else {
-                if (observerBookmarksData) {
-                    // update bookmarks value
-                    this.bookmarks = observerBookmarksData;
-                } else {
-                    this.bookmarks = null;
-                }
-            }
-        });
+        this.ObservablesService
+            .getObservableData('bookmarks')
+            .subscribe(observerBookmarksData => { this.bookmarks = observerBookmarksData; });
+
+        // get current source from observer
+        this.ObservablesService
+            .getObservableData('source')
+            .subscribe(observerSourceData => { this.source = observerSourceData; });
     }
 
 
