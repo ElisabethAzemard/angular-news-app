@@ -98,6 +98,7 @@ export class NewsSourceSelectorComponent implements OnInit {
 
         this.newsCollection = response.articles;
         this.ObservablesService.setObservableData('news', this.newsCollection);
+        // TODO: if no news, display message
 
         // send current source to Observer & local storage
         this.saveSource(sourceSelectorFormData.source);
@@ -105,33 +106,32 @@ export class NewsSourceSelectorComponent implements OnInit {
 
     public saveSource = (sourceId) => {
         // get source object from sourcesCollection with id obtained from select form
-        for (let [key, source] of Object.entries(this.sourcesCollection)) {
-            if (source.id == sourceId) {
-                // check if there are bookmarks on the page (not on home)
-                if (this.bookmarks) {
-                    // update current source if different from previous
-                    if (source !== this.source) {
-                        this.source = { info: source };
-                        this.source.alreadyBookmarked = false;
-                    }
-
-                    // check for bookmarks existence
-                    if (this.bookmarks.length > 0) {
-                        // check if source is already bookmarked
-                        let alreadyBookmarked = this.bookmarks.find((bookmark) => {
-                            return bookmark.id == this.source.info.id;
-                        });
-
-                        // set alreadyBookmarked value accordingly
-                        if (alreadyBookmarked) { this.source.alreadyBookmarked = true; }
-                    }
-
-                    // update observable & local storage
-                    this.ObservablesService.setObservableData('source', this.source);
-                } else {
-                    // send source object to observer and local storage
-                    this.ObservablesService.setObservableData('source', { info: source });
+        let source = this.sourcesCollection.filter(source => (source.id === sourceId))[0];
+        if (source) {
+            // check if there are bookmarks on the page (not on home)
+            if (this.bookmarks) {
+                // update current source if different from previous
+                if (source !== this.source) {
+                    this.source = { info: source };
+                    this.source.alreadyBookmarked = false;
                 }
+
+                // check for bookmarks existence
+                if (this.bookmarks.length > 0) {
+                    // check if source is already bookmarked
+                    let alreadyBookmarked = this.bookmarks.find((bookmark) => {
+                        return bookmark.id == this.source.info.id;
+                    });
+
+                    // set alreadyBookmarked value accordingly
+                    if (alreadyBookmarked) { this.source.alreadyBookmarked = true; }
+                }
+
+                // update observable & local storage
+                this.ObservablesService.setObservableData('source', this.source);
+            } else {
+                // send source object to observer and local storage
+                this.ObservablesService.setObservableData('source', { info: source });
             }
         }
     }
