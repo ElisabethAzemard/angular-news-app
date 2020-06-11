@@ -20,6 +20,7 @@ import { NewsArticleComponent } from './shared/news-article/news-article.compone
 import { NewsSourceComponent } from './shared/news-source/news-source/news-source.component';
 import { NewsSourceSelectorComponent } from './shared/forms/news-source-selector/news-source-selector.component';
 import { RegisterFormComponent } from './shared/forms/register-form/register-form.component';
+import { SingleBookmarkComponent } from './shared/single-bookmark/single-bookmark.component';
 
 
 /* ROUTER IMPORT */
@@ -42,7 +43,8 @@ import { CrudService } from './services/crud/crud.service';
         LoginFormComponent,
         NewsSourceComponent,
         NewsSourceSelectorComponent,
-        RegisterFormComponent
+        RegisterFormComponent,
+        SingleBookmarkComponent
     ],
     imports: [
         BrowserModule,

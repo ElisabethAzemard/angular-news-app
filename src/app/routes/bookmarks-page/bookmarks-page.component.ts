@@ -1,8 +1,6 @@
 /* IMPORTS */
 import { Component, OnInit } from '@angular/core';
 
-import { faHeartBroken } from '@fortawesome/free-solid-svg-icons';
-
 import { CrudService } from '../../services/crud/crud.service';
 import { ObservablesService } from '../../services/observable/observable.service';
 
@@ -18,9 +16,6 @@ export class BookmarksPageComponent implements OnInit {
     // PROPERTIES
     private bookmarks: any = [];
     private source: any;
-    private bookmarkNews: any = false;
-    private bookmarkNewsId: string;
-    private faHeartBroken = faHeartBroken;
 
 
     // DEPENDENCIES INJECTION
@@ -55,16 +50,6 @@ export class BookmarksPageComponent implements OnInit {
         if (this.source) {
             this.source.alreadyBookmarked = false;
             this.ObservablesService.setObservableData('source', this.source);
-        }
-    }
-
-    private toggleBookmarkNews = async (sourceId) => {
-        if (!this.bookmarkNews) {
-            this.bookmarkNews = await this.CrudService.getBookmarkNews(`sources=${sourceId}`);
-            this.bookmarkNewsId = sourceId;
-        } else {
-            this.bookmarkNews = false;
-            this.bookmarkNewsId = '';
         }
     }
 

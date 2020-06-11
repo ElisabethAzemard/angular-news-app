@@ -1,55 +1,7 @@
 <section *ngIf="bookmarks" class="section">
-    <!-- @TODO: create a single bookmark component -->
-    <article *ngFor="let bookmark of bookmarks"
+    <article *ngFor="let singleBookmark of bookmarks"
         class="is-small">
-        <div class="message-header has-background-dark">
-            <h2>{{ bookmark.name }}</h2>
-            <button class="button is-danger is-small"
-                id="removeFromBookmarks"
-                (click)="removeBookmark(bookmark._id)">
-                <span>Remove from bookmarks</span>
-                <span class="icon is-small">
-                    <fa-icon [icon]="faHeartBroken"
-                        aria-hidden="true"></fa-icon>
-                </span>
-            </button>
-        </div>
-        <div class="message-body has-background-light">
-            <p>{{ bookmark.description }}</p>
-            <div class="field is-grouped is-grouped-multiline">
-                <div class="control">
-                    <div class="tags has-addons">
-                        <span class="tag">category</span>
-                        <span class="tag is-primary heading">{{ bookmark.category}}</span>
-                    </div>
-                </div>
-                <div class="control">
-                    <div class="tags has-addons">
-                        <span class="tag">language</span>
-                        <span class="tag is-primary heading">{{ bookmark.language}}</span>
-                    </div>
-                </div>
-                <div class="control">
-                    <div class="tags has-addons">
-                        <span class="tag">country</span>
-                        <span class="tag is-primary heading">{{ bookmark.country}}</span>
-                    </div>
-                </div>
-            </div>
-            <div class="field">
-                <input id="toggleNews"
-                type="checkbox"
-                name="toggleNews"
-                class="switch is-dark"
-                (click)="toggleBookmarkNews(bookmark.id)">
-                <label for="toggleNews">Read the news</label>
-            </div>
-            <div *ngIf="bookmarkNews && bookmarkNewsId == bookmark.id" class="headlines">
-                <article *ngFor="let newsItem of bookmarkNews">
-                    <app-news-article [news]="newsItem"></app-news-article>
-                </article>
-            </div>
-        </div>
+        <app-single-bookmark [bookmark]="singleBookmark"></app-single-bookmark>
     </article>
 </section>
 <section *ngIf="bookmarks.length == 0" class="section">
