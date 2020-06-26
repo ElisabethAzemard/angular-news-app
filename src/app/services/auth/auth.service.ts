@@ -65,7 +65,7 @@ export class AuthService {
         localStorage.setItem('bookmarks', JSON.stringify(apiResponse.data.bookmark));
 
         // Return data
-        return apiResponse || {};
+        return apiResponse.data || {};
     };
 
     // handle api response error

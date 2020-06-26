@@ -50,7 +50,7 @@ export class HomePageComponent implements OnInit {
         const userInfo = await this.AuthService.loginUser(credentials);
 
         // set local storage & observer here because token is not accessible from apiResponse.data.token in AuthService
-        localStorage.setItem('token', userInfo.data.token);
+        localStorage.setItem('token', userInfo.token);
 
         // if login is successful, redirect to /news
         if (userInfo) {
